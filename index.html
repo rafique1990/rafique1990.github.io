@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rafique Nazir | AI Engineer</title>
+    <meta name="description" content="Rafique Nazir, AI Engineer. Building production LLM and agent systems with RAG, MCP, and AWS. AWS Certified Solutions Architect, Associate.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,300..600,0..1,0" rel="stylesheet">
+
+    <style>
+        /* ==========================================================================
+           DEEPMIND-INSPIRED DESIGN TOKENS
+           ========================================================================== */
+        :root {
+            --bg: #ffffff;
+            --bg-soft: #f5f6f8;
+            --ink: #191b1f;
+            --ink-2: #494c52;
+            --ink-3: #75787e;
+            --line: #e6e8ec;
+            --card: #ffffff;
+            --blue: #1a73e8;
+
+            --spectrum: linear-gradient(100deg, #3186ff 0%, #00c6c1 30%, #35c15f 55%, #ffc633 78%, #ff7a59 100%);
+            --spectrum-soft: linear-gradient(100deg, #e9f1ff 0%, #e2fbf8 32%, #e7f8ec 58%, #fff4d6 80%, #ffeae2 100%);
+
+            --cov-blue:   linear-gradient(135deg, #2f6bff 0%, #6fa8ff 100%);
+            --cov-teal:   linear-gradient(135deg, #00b3a4 0%, #57d9c9 100%);
+            --cov-green:  linear-gradient(135deg, #1f9d4d 0%, #7ad07f 100%);
+            --cov-amber:  linear-gradient(135deg, #f0a11e 0%, #ffce5a 100%);
+            --cov-violet: linear-gradient(135deg, #7048e8 0%, #b197fc 100%);
+            --cov-coral:  linear-gradient(135deg, #ff5f57 0%, #ff9d7e 100%);
+            --cov-slate:  linear-gradient(135deg, #3a4657 0%, #7b8aa0 100%);
+
+            --r-xl: 30px;
+            --r-lg: 22px;
+            --r-md: 16px;
+            --pill: 999px;
+
+            --display: 'Space Grotesk', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+            --ease: cubic-bezier(0.2, 0, 0, 1);
+            --shadow-1: 0 1px 2px rgba(20,22,26,.06), 0 4px 16px rgba(20,22,26,.05);
+            --shadow-2: 0 8px 30px rgba(20,22,26,.10);
+
+            --max: 1180px;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body { background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 1rem; line-height: 1.62; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+        ::selection { background: #d7e6ff; color: #0a1c3d; }
+        a:focus-visible, button:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; border-radius: 8px; }
+        .material-symbols-rounded { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; font-size: 1.25em; vertical-align: -0.28em; line-height: 1; }
+        .container { max-width: var(--max); margin: 0 auto; padding: 0 1.6rem; }
+        h1, h2, h3, .display { font-family: var(--display); letter-spacing: -0.02em; }
+        .spectrum-text { background: var(--spectrum); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+        .top-spectrum { height: 5px; width: 100%; background: var(--spectrum); }
+
+        /* NAV */
+        .navwrap { position: sticky; top: 0; z-index: 1000; padding: 0.85rem 1rem 0 1rem; }
+        nav { display: flex; justify-content: space-between; align-items: center; gap: 0.75rem; max-width: var(--max); margin: 0 auto; padding: 0.6rem 0.7rem 0.6rem 1.4rem; background: rgba(255,255,255,0.82); border: 1px solid var(--line); border-radius: var(--pill); backdrop-filter: blur(16px) saturate(1.3); -webkit-backdrop-filter: blur(16px) saturate(1.3); transition: box-shadow .4s var(--ease); }
+        nav.scrolled { box-shadow: var(--shadow-1); }
+        .logo { display: inline-flex; align-items: center; gap: 0.6rem; font-family: var(--display); font-weight: 700; font-size: 1.06rem; color: var(--ink); text-decoration: none; white-space: nowrap; }
+        .logo .mark { width: 20px; height: 20px; border-radius: 6px; background: var(--spectrum); flex-shrink: 0; }
+        .nav-right { display: flex; align-items: center; gap: 0.5rem; }
+        .nav-links { display: flex; align-items: center; gap: 0.15rem; list-style: none; }
+        .nav-links a { display: inline-flex; align-items: center; gap: 0.35rem; color: var(--ink-2); text-decoration: none; font-size: 0.92rem; font-weight: 600; padding: 0.55rem 0.9rem; border-radius: var(--pill); transition: background .2s var(--ease), color .2s var(--ease); white-space: nowrap; }
+        .nav-links a:hover { background: var(--bg-soft); color: var(--ink); }
+        .nav-links a.nav-cta { background: var(--ink); color: #fff; }
+        .nav-links a.nav-cta:hover { background: #000; }
+
+        .lang-seg { display: inline-flex; background: var(--bg-soft); border: 1px solid var(--line); border-radius: var(--pill); padding: 2px; flex-shrink: 0; }
+        .lang-seg button { border: none; background: transparent; cursor: pointer; font-family: var(--display); font-weight: 600; font-size: 0.78rem; color: var(--ink-3); padding: 0.32rem 0.62rem; border-radius: var(--pill); transition: background .2s var(--ease), color .2s var(--ease); }
+        .lang-seg button.active { background: #fff; color: var(--ink); box-shadow: var(--shadow-1); }
+
+        .menu-btn { display: none; border: none; background: transparent; color: var(--ink); cursor: pointer; padding: 0.5rem; border-radius: var(--pill); }
+        .menu-btn:hover { background: var(--bg-soft); }
+        .menu-btn .material-symbols-rounded { font-size: 1.7rem; }
+        @media (max-width: 920px) {
+            .menu-btn { display: inline-flex; }
+            .nav-links { display: none; position: absolute; top: calc(100% + 0.5rem); right: 1rem; left: 1rem; flex-direction: column; align-items: stretch; background: #fff; border: 1px solid var(--line); border-radius: var(--r-lg); box-shadow: var(--shadow-2); padding: 0.6rem; gap: 0.1rem; }
+            .nav-links.open { display: flex; animation: menuIn .28s var(--ease); }
+            .nav-links a { justify-content: flex-start; padding: 0.85rem 1rem; }
+            nav { position: relative; }
+        }
+        @keyframes menuIn { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: none; } }
+
+        /* HERO */
+        .hero { position: relative; display: grid; grid-template-columns: 1.35fr 1fr; gap: 3.5rem; align-items: center; padding: 4.5rem 0 3.5rem; }
+        .hero-wash { position: absolute; inset: -30% -20% auto -20%; height: 620px; z-index: -1; background: var(--spectrum-soft); filter: blur(60px); opacity: 0.9; border-radius: 50%; pointer-events: none; }
+        .eyebrow { display: inline-flex; align-items: center; gap: 0.55rem; font-size: 0.82rem; font-weight: 600; color: var(--ink-2); background: #fff; border: 1px solid var(--line); border-radius: var(--pill); padding: 0.4rem 0.95rem; margin-bottom: 1.6rem; box-shadow: var(--shadow-1); }
+        .eyebrow .dot { width: 8px; height: 8px; border-radius: 50%; background: #1f9d4d; box-shadow: 0 0 0 0 rgba(31,157,77,.4); animation: pulse 2.4s infinite; }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(31,157,77,.4); } 70% { box-shadow: 0 0 0 7px rgba(31,157,77,0); } 100% { box-shadow: 0 0 0 0 rgba(31,157,77,0); } }
+        .hero h1 { font-size: clamp(2.9rem, 6vw, 4.6rem); font-weight: 700; line-height: 1.02; margin-bottom: 1rem; }
+        .hero-role { font-family: var(--display); font-size: clamp(1.05rem, 2.2vw, 1.35rem); font-weight: 500; color: var(--ink-2); margin-bottom: 1.4rem; }
+        .hero-lead { font-size: 1.12rem; color: var(--ink-2); max-width: 44ch; margin-bottom: 2rem; }
+        .hero-lead strong { color: var(--ink); font-weight: 600; }
+        .hero-actions { display: flex; flex-wrap: wrap; gap: 0.7rem; margin-bottom: 2rem; }
+        .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.8rem 1.5rem; border-radius: var(--pill); font-weight: 600; font-size: 0.96rem; text-decoration: none; cursor: pointer; border: 1px solid transparent; transition: transform .2s var(--ease), box-shadow .2s var(--ease), background .2s var(--ease), border-color .2s var(--ease); }
+        .btn-dark { background: var(--ink); color: #fff; }
+        .btn-dark:hover { background: #000; transform: translateY(-2px); box-shadow: var(--shadow-2); }
+        .btn-outline { background: #fff; color: var(--ink); border-color: var(--line); }
+        .btn-outline:hover { border-color: #c7cbd1; transform: translateY(-2px); box-shadow: var(--shadow-1); }
+        .hero-tags { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+        .chip { font-size: 0.78rem; font-weight: 600; color: var(--ink-2); background: var(--bg-soft); border: 1px solid var(--line); border-radius: var(--pill); padding: 0.32rem 0.8rem; }
+        .portrait { position: relative; border-radius: var(--r-xl); overflow: hidden; box-shadow: var(--shadow-2); border: 1px solid var(--line); }
+        .portrait::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 6px; background: var(--spectrum); }
+        .portrait img { width: 100%; height: auto; display: block; }
+
+        /* SECTION HEADERS */
+        .section { padding: 3.5rem 0; }
+        .sec-head { max-width: 720px; margin-bottom: 2.4rem; }
+        .kicker { display: inline-flex; align-items: center; gap: 0.5rem; font-family: var(--display); font-size: 0.8rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 0.9rem; }
+        .kicker .bar { width: 26px; height: 4px; border-radius: 4px; background: var(--spectrum); }
+        .sec-head h2 { font-size: clamp(1.9rem, 4vw, 2.7rem); font-weight: 700; line-height: 1.06; margin-bottom: 0.7rem; }
+        .sec-head p { color: var(--ink-2); font-size: 1.05rem; }
+
+        /* HIGHLIGHTS (at-a-glance overview) */
+        .highlights { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.2rem; margin-top: 1.1rem; }
+        .hl { background: var(--card); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 1.5rem; transition: transform .3s var(--ease), box-shadow .3s var(--ease), border-color .3s var(--ease); }
+        .hl:hover { transform: translateY(-4px); box-shadow: var(--shadow-1); border-color: #d4d8de; }
+        .hl .ico { width: 44px; height: 44px; border-radius: 12px; display: inline-flex; align-items: center; justify-content: center; color: #fff; margin-bottom: 0.9rem; }
+        .hl .ico .material-symbols-rounded { font-size: 1.45rem; vertical-align: 0; }
+        .hl .big { font-family: var(--display); font-size: 1.45rem; font-weight: 700; line-height: 1.08; letter-spacing: -0.02em; margin-bottom: 0.3rem; }
+        .hl .lbl { font-size: 0.9rem; color: var(--ink-2); }
+
+        /* SKILLS */
+        .skills-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.3rem; }
+        .skill-card { background: var(--card); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 1.8rem; transition: transform .3s var(--ease), box-shadow .3s var(--ease), border-color .3s var(--ease); }
+        .skill-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-2); border-color: #d4d8de; }
+        .skill-ico { width: 52px; height: 52px; border-radius: var(--r-md); display: inline-flex; align-items: center; justify-content: center; color: #fff; margin-bottom: 1.1rem; }
+        .skill-ico .material-symbols-rounded { font-size: 1.7rem; vertical-align: 0; }
+        .skill-card h3 { font-size: 1.2rem; font-weight: 600; margin-bottom: 0.55rem; }
+        .skill-card p { color: var(--ink-2); font-size: 0.95rem; margin-bottom: 1.1rem; }
+        .tag-row { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+        .tag { font-size: 0.74rem; font-weight: 600; color: var(--ink-2); background: var(--bg-soft); border: 1px solid var(--line); border-radius: 8px; padding: 0.26rem 0.6rem; }
+        .bg-blue { background: var(--cov-blue); } .bg-teal { background: var(--cov-teal); } .bg-green { background: var(--cov-green); } .bg-amber { background: var(--cov-amber); } .bg-violet { background: var(--cov-violet); } .bg-coral { background: var(--cov-coral); } .bg-slate { background: var(--cov-slate); }
+
+        /* FULL TECH STACK */
+        .stack { margin-top: 2.4rem; padding-top: 2.2rem; border-top: 1px solid var(--line); }
+        .stack-head { display: flex; align-items: baseline; gap: 0.8rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+        .stack-head h3 { font-size: 1.2rem; font-weight: 600; }
+        .stack-head p { color: var(--ink-3); font-size: 0.92rem; }
+        .stack-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem 2.4rem; }
+        .stack-cat h4 { display: flex; align-items: center; gap: 0.5rem; font-family: var(--display); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-2); margin-bottom: 0.6rem; }
+        .stack-cat h4 .d { width: 9px; height: 9px; border-radius: 3px; flex-shrink: 0; }
+
+        /* EXPERIENCE */
+        .xp-list { display: flex; flex-direction: column; gap: 1.2rem; }
+        .xp-band { display: flex; align-items: center; gap: 0.6rem; font-family: var(--display); font-size: 0.8rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-3); margin: 1.2rem 0 0.1rem; }
+        .xp-band .material-symbols-rounded { font-size: 1.05rem; vertical-align: -0.2em; }
+        .xp-card { background: var(--card); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 1.7rem 1.8rem; transition: transform .3s var(--ease), box-shadow .3s var(--ease), border-color .3s var(--ease); }
+        .xp-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-1); border-color: #d4d8de; }
+        .xp-head { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.7rem; margin-bottom: 0.9rem; }
+        .xp-co { display: flex; align-items: center; gap: 0.85rem; }
+        .xp-co .ico { width: 46px; height: 46px; border-radius: var(--r-md); display: inline-flex; align-items: center; justify-content: center; color: #fff; flex-shrink: 0; }
+        .xp-co .ico .material-symbols-rounded { font-size: 1.45rem; vertical-align: 0; }
+        .xp-co h3 { font-size: 1.2rem; font-weight: 600; }
+        .xp-co .role { font-size: 0.9rem; color: var(--ink-2); font-weight: 500; }
+        .xp-meta { text-align: right; }
+        .xp-meta .date { font-family: var(--display); font-size: 0.86rem; font-weight: 600; color: var(--ink); }
+        .xp-meta .loc { font-size: 0.82rem; color: var(--ink-3); }
+        .xp-card ul { margin: 0 0 0 1.1rem; color: var(--ink-2); font-size: 0.95rem; }
+        .xp-card li { margin-bottom: 0.4rem; }
+        .xp-card li strong { color: var(--ink); font-weight: 600; }
+        .xp-card .tag-row { margin-top: 1.1rem; }
+        .show-more { align-self: center; display: inline-flex; align-items: center; gap: 0.45rem; margin-top: 0.5rem; padding: 0.72rem 1.5rem; border-radius: var(--pill); border: 1px solid var(--line); background: #fff; color: var(--ink); font-family: var(--display); font-weight: 600; font-size: 0.92rem; cursor: pointer; transition: transform .2s var(--ease), box-shadow .2s var(--ease); }
+        .show-more:hover { box-shadow: var(--shadow-1); transform: translateY(-2px); }
+        #xpMore { display: flex; flex-direction: column; gap: 1.2rem; }
+        #xpMore.xp-collapsed { display: none; }
+
+        /* PROJECTS */
+        .proj-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.3rem; }
+        .proj { background: var(--card); border: 1px solid var(--line); border-radius: var(--r-lg); overflow: hidden; display: flex; flex-direction: column; transition: transform .3s var(--ease), box-shadow .3s var(--ease), border-color .3s var(--ease); }
+        .proj:hover { transform: translateY(-5px); box-shadow: var(--shadow-2); border-color: #d4d8de; }
+        .proj-cover { position: relative; height: 118px; display: flex; align-items: center; justify-content: center; }
+        .proj-cover .material-symbols-rounded { font-size: 2.9rem; color: #fff; vertical-align: 0; filter: drop-shadow(0 2px 6px rgba(0,0,0,.18)); }
+        .proj-cover .flag { position: absolute; top: 0.7rem; right: 0.7rem; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.04em; color: #fff; background: rgba(0,0,0,0.28); border: 1px solid rgba(255,255,255,0.5); border-radius: var(--pill); padding: 0.16rem 0.6rem; backdrop-filter: blur(4px); }
+        .proj-body { padding: 1.4rem 1.5rem 1.6rem; display: flex; flex-direction: column; flex: 1; }
+        .proj-body h3 { font-size: 1.12rem; font-weight: 600; margin-bottom: 0.5rem; }
+        .proj-body p { color: var(--ink-2); font-size: 0.92rem; margin-bottom: 1.1rem; }
+        .proj-body .tag-row { margin-top: auto; }
+
+        /* CERTIFICATIONS */
+        .cert-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+        .cert { display: flex; align-items: flex-start; gap: 0.95rem; background: var(--card); border: 1px solid var(--line); border-radius: var(--r-md); padding: 1.1rem 1.3rem; transition: transform .25s var(--ease), box-shadow .25s var(--ease); }
+        .cert:hover { transform: translateY(-3px); box-shadow: var(--shadow-1); }
+        .cert .ico { width: 42px; height: 42px; border-radius: 12px; display: inline-flex; align-items: center; justify-content: center; color: #fff; flex-shrink: 0; }
+        .cert .ico .material-symbols-rounded { font-size: 1.35rem; vertical-align: 0; }
+        .cert h3 { font-size: 0.98rem; font-weight: 600; margin-bottom: 0.15rem; line-height: 1.3; }
+        .cert p { font-size: 0.83rem; color: var(--ink-3); }
+        .cert a { color: var(--blue); text-decoration: none; font-weight: 600; font-size: 0.82rem; }
+        .cert a:hover { text-decoration: underline; }
+
+        /* CONTACT + FOOTER */
+        .contact-card { position: relative; overflow: hidden; border-radius: var(--r-xl); background: #14151a; color: #fff; padding: 3.4rem 2.6rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.6rem; }
+        .contact-card .spectrum-strip { position: absolute; left: 0; right: 0; top: 0; height: 6px; background: var(--spectrum); }
+        .contact-card h2 { font-size: clamp(1.7rem, 3.5vw, 2.3rem); font-weight: 700; margin-bottom: 0.5rem; }
+        .contact-card p { color: #b9bcc4; max-width: 460px; }
+        .contact-actions { display: flex; flex-wrap: wrap; gap: 0.7rem; }
+        .btn-light { background: #fff; color: var(--ink); }
+        .btn-light:hover { background: #eef0f3; transform: translateY(-2px); }
+        .btn-ghost { background: transparent; color: #fff; border-color: rgba(255,255,255,0.35); }
+        .btn-ghost:hover { border-color: #fff; transform: translateY(-2px); }
+        footer { text-align: center; padding: 3rem 0 3rem; margin-top: 3rem; border-top: 1px solid var(--line); }
+        .footer-links { display: flex; justify-content: center; gap: 0.4rem; list-style: none; margin-bottom: 1rem; flex-wrap: wrap; }
+        .footer-links a { display: inline-flex; align-items: center; gap: 0.35rem; color: var(--ink-3); text-decoration: none; font-size: 0.88rem; font-weight: 600; padding: 0.45rem 0.9rem; border-radius: var(--pill); }
+        .footer-links a:hover { background: var(--bg-soft); color: var(--ink); }
+        .footer-note { font-size: 0.82rem; color: var(--ink-3); }
+
+        .reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s var(--ease), transform .7s var(--ease); }
+        .reveal.visible { opacity: 1; transform: none; }
+        @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } .reveal { opacity: 1; transform: none; } html { scroll-behavior: auto; } }
+        @media (max-width: 920px) {
+            .hero { grid-template-columns: 1fr; gap: 2.4rem; padding-top: 2.5rem; }
+            .hero .portrait { max-width: 300px; }
+            .skills-grid, .proj-grid, .cert-grid, .stack-grid { grid-template-columns: 1fr; }
+            .xp-head { flex-direction: column; }
+            .xp-meta { text-align: left; }
+            .contact-card { flex-direction: column; align-items: flex-start; padding: 2.4rem 1.8rem; }
+        }
+        @media (min-width: 561px) and (max-width: 920px) { .highlights { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 560px) { .highlights { grid-template-columns: 1fr; } }
+        @media (min-width: 921px) and (max-width: 1080px) { .proj-grid { grid-template-columns: repeat(2, 1fr); } }
+    </style>
+</head>
+<body>
+    <div class="top-spectrum"></div>
+
+    <div class="navwrap">
+        <nav id="topnav">
+            <a href="#" class="logo"><span class="mark"></span>Rafique Nazir</a>
+            <div class="nav-right">
+                <div class="lang-seg" role="group" aria-label="Language">
+                    <button type="button" data-lang="en" class="active">EN</button>
+                    <button type="button" data-lang="de">DE</button>
+                </div>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="#skills" data-i18n="n.sk">Skills</a></li>
+                    <li><a href="#experience" data-i18n="n.xp">Experience</a></li>
+                    <li><a href="#projects" data-i18n="n.pr">Projects</a></li>
+                    <li><a href="#certifications" data-i18n="n.cr">Credentials</a></li>
+                    <li><a href="https://github.com/rafique1990" target="_blank" rel="noopener">GitHub</a></li>
+                    <li><a href="assets/RafiqueNazir-CV.pdf" target="_blank" rel="noopener" data-i18n="n.rs">Resume</a></li>
+                    <li><a href="#contact" class="nav-cta" data-i18n="n.ct">Contact</a></li>
+                </ul>
+                <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
+                    <span class="material-symbols-rounded" id="menuIcon">menu</span>
+                </button>
+            </div>
+        </nav>
+    </div>
+
+    <div class="container">
+
+        <!-- HERO -->
+        <header class="hero">
+            <div class="hero-wash"></div>
+            <div>
+                <div class="eyebrow"><span class="dot"></span><span data-i18n="h.eb">Available for AI Engineer roles</span></div>
+                <h1 data-i18n="h.h1">Building <span class="spectrum-text">intelligent</span> systems that ship.</h1>
+                <p class="hero-role" data-i18n="h.role">Rafique Nazir &middot; AI Engineer</p>
+                <p class="hero-lead" data-i18n="h.lead">I turn language models into reliable products: <strong>agents</strong>, <strong>RAG</strong>, and the <strong>Model Context Protocol</strong>, built on more than ten years of backend engineering and <strong>AWS</strong>.</p>
+                <div class="hero-actions">
+                    <a href="assets/RafiqueNazir-CV.pdf" target="_blank" rel="noopener" class="btn btn-dark"><span class="material-symbols-rounded">download</span><span data-i18n="h.rs">Download Resume</span></a>
+                    <a href="https://www.linkedin.com/in/rafique-nazir-056ba41a/" target="_blank" rel="noopener" class="btn btn-outline"><span class="material-symbols-rounded">person</span>LinkedIn</a>
+                    <a href="https://github.com/rafique1990" target="_blank" rel="noopener" class="btn btn-outline"><span class="material-symbols-rounded">code</span>GitHub</a>
+                </div>
+                <div class="hero-tags">
+                    <span class="chip">Python</span><span class="chip">FastAPI</span><span class="chip">LLM Agents</span><span class="chip">MCP</span><span class="chip">RAG</span><span class="chip">Amazon Bedrock</span><span class="chip">Langfuse</span><span class="chip">ChromaDB</span><span class="chip">AWS</span><span class="chip">Kubernetes</span>
+                </div>
+            </div>
+            <div class="portrait reveal">
+                <img src="assets/profile.jpg" alt="Portrait of Rafique Nazir" loading="eager">
+            </div>
+        </header>
+
+        <!-- HIGHLIGHTS -->
+        <section id="highlights" class="section" style="padding-top: 0.5rem;">
+            <div class="kicker reveal"><span class="bar"></span><span data-i18n="hl.k">At a glance</span></div>
+            <div class="highlights">
+                <article class="hl reveal">
+                    <div class="ico bg-violet"><span class="material-symbols-rounded">smart_toy</span></div>
+                    <div class="big" data-i18n="hl1.b">Agentic AI</div>
+                    <div class="lbl" data-i18n="hl1.l">MCP, RAG and LLM agents shipped to production</div>
+                </article>
+                <article class="hl reveal">
+                    <div class="ico bg-blue"><span class="material-symbols-rounded">cloud_done</span></div>
+                    <div class="big" data-i18n="hl2.b">AWS Certified</div>
+                    <div class="lbl" data-i18n="hl2.l">Solutions Architect, Associate &middot; Amazon Bedrock</div>
+                </article>
+                <article class="hl reveal">
+                    <div class="ico bg-green"><span class="material-symbols-rounded">code</span></div>
+                    <div class="big" data-i18n="hl3.b">10+ Years</div>
+                    <div class="lbl" data-i18n="hl3.l">Backend engineering in Python, Java and the cloud</div>
+                </article>
+                <article class="hl reveal">
+                    <div class="ico bg-coral"><span class="material-symbols-rounded">trending_up</span></div>
+                    <div class="big" data-i18n="hl4.b">+60% Bookings</div>
+                    <div class="lbl" data-i18n="hl4.l">Voice AI assistant delivered for Deutsche Telekom</div>
+                </article>
+            </div>
+        </section>
+
+        <!-- SKILLS -->
+        <section id="skills" class="section">
+            <div class="sec-head reveal">
+                <div class="kicker"><span class="bar"></span><span data-i18n="s.k">What I work with</span></div>
+                <h2 data-i18n="s.h">Skills</h2>
+                <p data-i18n="s.p">From the model layer down to the infrastructure that runs it in production.</p>
+            </div>
+            <div class="skills-grid">
+                <article class="skill-card reveal">
+                    <div class="skill-ico bg-violet"><span class="material-symbols-rounded">smart_toy</span></div>
+                    <h3 data-i18n="s1.h">LLM &amp; Agentic AI</h3>
+                    <p data-i18n="s1.p">Agent orchestration and tool use: Just-In-Time tool discovery over the Model Context Protocol (MCP), RAG pipelines with chunking and reranking, semantic tool retrieval with embeddings, plus guardrails and fallback chains that keep agents predictable.</p>
+                    <div class="tag-row"><span class="tag">MCP</span><span class="tag">LLM Agents</span><span class="tag">RAG</span><span class="tag">Embeddings</span><span class="tag">ChromaDB</span><span class="tag">LangChain</span></div>
+                </article>
+                <article class="skill-card reveal">
+                    <div class="skill-ico bg-teal"><span class="material-symbols-rounded">monitoring</span></div>
+                    <h3 data-i18n="s2.h">LLM Evaluation &amp; Monitoring</h3>
+                    <p data-i18n="s2.p">Tracing multi-step agent conversations with Langfuse and OpenTelemetry, LLM-as-a-Judge evaluation that checks tool selection and output validity, and prompt engineering for cost and reliability in production.</p>
+                    <div class="tag-row"><span class="tag">Langfuse</span><span class="tag">OpenTelemetry</span><span class="tag">LLM-as-a-Judge</span><span class="tag">Prompt Engineering</span></div>
+                </article>
+                <article class="skill-card reveal">
+                    <div class="skill-ico bg-blue"><span class="material-symbols-rounded">cloud</span></div>
+                    <h3 data-i18n="s3.h">AWS &amp; Generative AI</h3>
+                    <p data-i18n="s3.p">AWS Certified Solutions Architect, Associate. Hands-on with Amazon Bedrock (Foundation Models, Agents, Knowledge Bases, Guardrails), SageMaker, Amazon Q, and vector stores on OpenSearch and Aurora pgvector. Cloud design across EC2, S3, IAM, VPC, RDS, and CloudWatch.</p>
+                    <div class="tag-row"><span class="tag">AWS</span><span class="tag">Bedrock</span><span class="tag">SageMaker</span><span class="tag">Amazon Q</span><span class="tag">OpenSearch</span></div>
+                </article>
+                <article class="skill-card reveal">
+                    <div class="skill-ico bg-green"><span class="material-symbols-rounded">dns</span></div>
+                    <h3 data-i18n="s4.h">Backend &amp; DevOps</h3>
+                    <p data-i18n="s4.p">Asynchronous Python microservices with FastAPI and asyncio, PostgreSQL with SQLAlchemy, Redis, and event streaming with Kafka and RabbitMQ. Kubernetes, Docker, Terraform, and Helm, with CI/CD, Prometheus, Grafana, and Pytest.</p>
+                    <div class="tag-row"><span class="tag">FastAPI</span><span class="tag">asyncio</span><span class="tag">PostgreSQL</span><span class="tag">Redis</span><span class="tag">Kafka</span><span class="tag">Kubernetes</span><span class="tag">Terraform</span></div>
+                </article>
+            </div>
+
+            <div class="stack reveal">
+                <div class="stack-head">
+                    <h3 data-i18n="st.h">Full tech stack</h3>
+                    <p data-i18n="st.p">Technologies I have worked with across roles.</p>
+                </div>
+                <div class="stack-grid">
+                    <div class="stack-cat">
+                        <h4><span class="d bg-blue"></span><span data-i18n="st.c1">Languages</span></h4>
+                        <div class="tag-row"><span class="tag">Python</span><span class="tag">Java</span><span class="tag">C#</span><span class="tag">Scala</span><span class="tag">JavaScript</span><span class="tag">TypeScript</span><span class="tag">PHP</span><span class="tag">SQL</span></div>
+                    </div>
+                    <div class="stack-cat">
+                        <h4><span class="d bg-violet"></span><span data-i18n="st.c2">AI &amp; LLM</span></h4>
+                        <div class="tag-row"><span class="tag">LLM Agents</span><span class="tag">RAG</span><span class="tag">MCP</span><span class="tag">Prompt Engineering</span><span class="tag">Embeddings</span><span class="tag">Fine-tuning</span><span class="tag">LangChain</span><span class="tag">OpenAI API</span><span class="tag">spaCy</span><span class="tag">Transformers</span><span class="tag">Rasa</span><span class="tag">ChromaDB</span><span class="tag">pgvector</span><span class="tag">LLM-as-a-Judge</span><span class="tag">Langfuse</span><span class="tag">OpenTelemetry</span><span class="tag">Guardrails</span><span class="tag">NLP</span><span class="tag">OpenCV</span><span class="tag">Apache OpenNLP</span><span class="tag">OCR</span></div>
+                    </div>
+                    <div class="stack-cat">
+                        <h4><span class="d bg-teal"></span><span data-i18n="st.c3">AWS &amp; Cloud</span></h4>
+                        <div class="tag-row"><span class="tag">AWS</span><span class="tag">Amazon Bedrock</span><span class="tag">SageMaker</span><span class="tag">Amazon Q</span><span class="tag">Strands / AgentCore</span><span class="tag">EC2</span><span class="tag">S3</span><span class="tag">Lambda</span><span class="tag">RDS</span><span class="tag">SQS</span><span class="tag">IAM</span><span class="tag">VPC</span><span class="tag">CloudWatch</span><span class="tag">OpenSearch</span><span class="tag">Cognito</span><span class="tag">Azure</span><span class="tag">Google Cloud Vision</span></div>
+                    </div>
+                    <div class="stack-cat">
+                        <h4><span class="d bg-green"></span><span data-i18n="st.c4">Backend &amp; APIs</span></h4>
+                        <div class="tag-row"><span class="tag">FastAPI</span><span class="tag">Django</span><span class="tag">Spring Boot</span><span class="tag">Spring</span><span class="tag">ASP.NET Core</span><span class="tag">Ext.NET</span><span class="tag">REST</span><span class="tag">SOAP</span><span class="tag">gRPC</span><span class="tag">WebSocket</span><span class="tag">asyncio</span><span class="tag">AIOHTTP</span><span class="tag">Celery</span><span class="tag">Maven</span></div>
+                    </div>
+                    <div class="stack-cat">
+                        <h4><span class="d bg-amber"></span><span data-i18n="st.c5">Databases</span></h4>
+                        <div class="tag-row"><span class="tag">PostgreSQL</span><span class="tag">MySQL</span><span class="tag">Oracle PL/SQL</span><span class="tag">MS SQL Server</span><span class="tag">MongoDB</span><span class="tag">Redis</span></div>
+                    </div>
+                    <div class="stack-cat">
+                        <h4><span class="d bg-coral"></span><span data-i18n="st.c6">Data &amp; Messaging</span></h4>
+                        <div class="tag-row"><span class="tag">Apache Kafka</span><span class="tag">RabbitMQ</span><span class="tag">Amazon SQS</span><span class="tag">Pandas</span><span class="tag">Polars</span><span class="tag">NumPy</span></div>
+                    </div>
+                    <div class="stack-cat">
+                        <h4><span class="d bg-slate"></span><span data-i18n="st.c7">ORM &amp; Migrations</span></h4>
+                        <div class="tag-row"><span class="tag">SQLAlchemy</span><span class="tag">Alembic</span><span class="tag">Hibernate / JPA</span><span class="tag">NHibernate</span><span class="tag">Fluent NHibernate</span><span class="tag">LINQ</span><span class="tag">Jackson</span></div>
+                    </div>
+                    <div class="stack-cat">
+                        <h4><span class="d bg-blue"></span><span data-i18n="st.c8">DevOps &amp; IaC</span></h4>
+                        <div class="tag-row"><span class="tag">Kubernetes</span><span class="tag">Docker</span><span class="tag">Terraform</span><span class="tag">Helm</span><span class="tag">GitLab CI/CD</span><span class="tag">GitHub Actions</span><span class="tag">Prometheus</span><span class="tag">Grafana</span><span class="tag">Apache Tomcat</span><span class="tag">JBoss</span></div>
+                    </div>
+                    <div class="stack-cat">
+                        <h4><span class="d bg-violet"></span><span data-i18n="st.c9">Testing &amp; Quality</span></h4>
+                        <div class="tag-row"><span class="tag">Pytest</span><span class="tag">unittest</span><span class="tag">pytest-mock</span><span class="tag">JUnit</span><span class="tag">NUnit</span><span class="tag">Moq</span><span class="tag">tSQLt</span><span class="tag">SimpleTest</span><span class="tag">Black</span><span class="tag">MyPy</span><span class="tag">SonarQube</span><span class="tag">cProfile</span><span class="tag">TDD</span><span class="tag">E2E</span></div>
+                    </div>
+                    <div class="stack-cat">
+                        <h4><span class="d bg-teal"></span><span data-i18n="st.c10">Frontend &amp; Mobile</span></h4>
+                        <div class="tag-row"><span class="tag">Angular</span><span class="tag">Vue.js</span><span class="tag">Angular JS</span><span class="tag">Ext JS</span><span class="tag">Ionic</span><span class="tag">Apache Cordova</span><span class="tag">Node.js</span><span class="tag">Bootstrap</span><span class="tag">HTML</span><span class="tag">CSS</span></div>
+                    </div>
+                    <div class="stack-cat">
+                        <h4><span class="d bg-green"></span><span data-i18n="st.c11">Big Data &amp; Distributed</span></h4>
+                        <div class="tag-row"><span class="tag">Apache Hadoop</span><span class="tag">Apache Spark</span><span class="tag">Akka</span><span class="tag">Microsoft Orleans</span></div>
+                    </div>
+                    <div class="stack-cat">
+                        <h4><span class="d bg-amber"></span><span data-i18n="st.c12">Reporting &amp; Docs</span></h4>
+                        <div class="tag-row"><span class="tag">Crystal Reports</span><span class="tag">Apache POI</span><span class="tag">Apache PDFBox</span><span class="tag">SSIS</span><span class="tag">log4net</span><span class="tag">docFX</span><span class="tag">JavaFX</span></div>
+                    </div>
+                    <div class="stack-cat">
+                        <h4><span class="d bg-coral"></span><span data-i18n="st.c13">Security</span></h4>
+                        <div class="tag-row"><span class="tag">OAuth2</span><span class="tag">JWT</span><span class="tag">OpenID Connect</span><span class="tag">Spring Security</span><span class="tag">ForgeRock</span></div>
+                    </div>
+                    <div class="stack-cat">
+                        <h4><span class="d bg-slate"></span><span data-i18n="st.c14">Tools &amp; Version Control</span></h4>
+                        <div class="tag-row"><span class="tag">Git</span><span class="tag">GitLab</span><span class="tag">GitHub</span><span class="tag">TFS</span><span class="tag">IntelliJ IDEA</span><span class="tag">Eclipse</span><span class="tag">Visual Studio</span><span class="tag">Android Studio</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- EXPERIENCE -->
+        <section id="experience" class="section">
+            <div class="sec-head reveal">
+                <div class="kicker"><span class="bar"></span><span data-i18n="x.k">Built in production</span></div>
+                <h2 data-i18n="x.h">Experience</h2>
+                <p data-i18n="x.p">A decade of backend engineering, now focused on production AI.</p>
+            </div>
+            <div class="xp-list">
+
+                <article class="xp-card reveal">
+                    <div class="xp-head">
+                        <div class="xp-co"><div class="ico bg-violet"><span class="material-symbols-rounded">smart_toy</span></div><div><h3>BITA</h3><div class="role" data-i18n="r.bita">AI Engineer</div></div></div>
+                        <div class="xp-meta"><div class="date">01.2026 &ndash; Present</div><div class="loc">Frankfurt am Main, DE &middot; Hybrid</div></div>
+                    </div>
+                    <ul>
+                        <li data-i18n="bita.1">Working on an enterprise AI project that automates business workflows using LLM agents.</li>
+                        <li data-i18n="bita.2">Built a <strong>Just-In-Time (JIT) tool discovery</strong> system with the <strong>Model Context Protocol (MCP)</strong>, so agents find and call the right API at runtime based on the user request.</li>
+                        <li data-i18n="bita.3">Added tracing and monitoring with <strong>Langfuse</strong> and <strong>OpenTelemetry</strong> to follow multi-step agent conversations and debug them in production.</li>
+                        <li data-i18n="bita.4">Built an <strong>LLM-as-a-Judge</strong> evaluation setup that checks whether agents pick the right tools and return valid output.</li>
+                        <li data-i18n="bita.5">Added <strong>fallback chains</strong> and input/output <strong>guardrails</strong> to keep agent behaviour predictable and safe.</li>
+                        <li data-i18n="bita.6">Improved tool retrieval speed and relevance using <strong>ChromaDB</strong> and embeddings.</li>
+                    </ul>
+                    <div class="tag-row"><span class="tag">MCP</span><span class="tag">LLM Agents</span><span class="tag">ChromaDB</span><span class="tag">Langfuse</span><span class="tag">OpenTelemetry</span><span class="tag">Guardrails</span><span class="tag">Python</span><span class="tag">AWS</span></div>
+                </article>
+
+                <article class="xp-card reveal">
+                    <div class="xp-head">
+                        <div class="xp-co"><div class="ico bg-blue"><span class="material-symbols-rounded">school</span></div><div><h3 data-i18n="t.pd">Professional Development &amp; Cloud Certification</h3><div class="role" data-i18n="r.pd">Career Break (AWS &amp; German)</div></div></div>
+                        <div class="xp-meta"><div class="date">09.2024 &ndash; 09.2025</div><div class="loc">Darmstadt, DE</div></div>
+                    </div>
+                    <ul>
+                        <li data-i18n="pd.1">Earned the <strong>AWS Certified Solutions Architect, Associate</strong> certification and studied Generative AI on AWS (Amazon Bedrock, RAG, Guardrails).</li>
+                        <li data-i18n="pd.2">Completed intensive German training and passed the official <strong>B1 and B2 (CEFR)</strong> exams for professional working proficiency.</li>
+                    </ul>
+                    <div class="tag-row"><span class="tag">AWS</span><span class="tag">Bedrock</span><span class="tag">RAG</span><span class="tag">EC2 / S3 / VPC</span></div>
+                </article>
+
+                <article class="xp-card reveal">
+                    <div class="xp-head">
+                        <div class="xp-co"><div class="ico bg-coral"><span class="material-symbols-rounded">record_voice_over</span></div><div><h3>axxessio GmbH</h3><div class="role" data-i18n="r.ax">Software Engineer</div></div></div>
+                        <div class="xp-meta"><div class="date">01.2020 &ndash; 08.2024</div><div class="loc">Darmstadt, DE</div></div>
+                    </div>
+                    <ul>
+                        <li data-i18n="ax.1">Key contributor to a <strong>voice AI assistant</strong> for Deutsche Telekom using <strong>Rasa</strong> and <strong>Python</strong>, helping achieve a <strong>60% increase in bookings</strong>.</li>
+                        <li data-i18n="ax.2">Built microservices and REST APIs with FastAPI, and integrated ML modules and <strong>spaCy</strong>-based NLU into production conversational-AI pipelines.</li>
+                        <li data-i18n="ax.3">Improved performance with <strong>Redis caching</strong> and async processing.</li>
+                        <li data-i18n="ax.4">Set up CI/CD and infrastructure with <strong>Kubernetes</strong>, <strong>Terraform</strong>, <strong>Helm</strong>, and GitLab CI/CD, and mentored junior engineers.</li>
+                    </ul>
+                    <div class="tag-row"><span class="tag">Python</span><span class="tag">FastAPI</span><span class="tag">Rasa</span><span class="tag">spaCy</span><span class="tag">Redis</span><span class="tag">Kubernetes</span><span class="tag">Terraform</span></div>
+                </article>
+
+                <button class="show-more" id="xpToggle" aria-expanded="false" aria-controls="xpMore">
+                    <span class="material-symbols-rounded" id="xpToggleIcon">expand_more</span><span id="xpToggleLabel">Show earlier roles</span>
+                </button>
+
+                <div id="xpMore" class="xp-collapsed">
+
+                    <div class="xp-band"><span class="material-symbols-rounded">school</span><span data-i18n="bnd.1">Working-Student &amp; Trainee Roles &middot; Germany</span></div>
+
+                    <article class="xp-card">
+                        <div class="xp-head">
+                            <div class="xp-co"><div class="ico bg-slate"><span class="material-symbols-rounded">sync_alt</span></div><div><h3>IDAT GmbH</h3><div class="role" data-i18n="r.idat">Software Engineer (Working Student)</div></div></div>
+                            <div class="xp-meta"><div class="date">09.2017 &ndash; 09.2019</div><div class="loc">Darmstadt, DE</div></div>
+                        </div>
+                        <ul>
+                            <li data-i18n="idat.1"><strong>CompareDB</strong>: built a desktop application from scratch for data migration on Microsoft SQL Server, syncing tables and their dependent tables where no primary/foreign-key relationships existed.</li>
+                            <li data-i18n="idat.2"><strong>Unitechnik Excel Plugin</strong>: developed a VSTO Excel add-in that validates spreadsheet content and produces a defined output format for an in-house tool.</li>
+                        </ul>
+                        <div class="tag-row"><span class="tag">C#</span><span class="tag">MS SQL Server</span><span class="tag">SMO / SSIS</span><span class="tag">VSTO</span><span class="tag">NUnit / tSQLt</span><span class="tag">TFS</span></div>
+                    </article>
+
+                    <article class="xp-card">
+                        <div class="xp-head">
+                            <div class="xp-co"><div class="ico bg-amber"><span class="material-symbols-rounded">precision_manufacturing</span></div><div><h3>arago GmbH</h3><div class="role" data-i18n="r.arago">Student Trainee</div></div></div>
+                            <div class="xp-meta"><div class="date">06.2017 &ndash; 08.2017</div><div class="loc">Frankfurt, DE</div></div>
+                        </div>
+                        <ul>
+                            <li data-i18n="arg.1">Worked on the <strong>HIRO Connect Framework</strong>, middleware translating Customer Service Management items to and from the HIRO <strong>AI engine</strong> (arago is a leading B2B AI company using machine reasoning).</li>
+                            <li data-i18n="arg.2">Designed the test strategy, wrote test cases, and built test automation over Oracle RDBMS with Java SE and JUnit.</li>
+                        </ul>
+                        <div class="tag-row"><span class="tag">AI Middleware</span><span class="tag">Java SE</span><span class="tag">Oracle</span><span class="tag">JUnit</span></div>
+                    </article>
+
+                    <article class="xp-card">
+                        <div class="xp-head">
+                            <div class="xp-co"><div class="ico bg-teal"><span class="material-symbols-rounded">health_and_safety</span></div><div><h3>asuro GmbH</h3><div class="role" data-i18n="r.asuro">Web Developer (Working Student)</div></div></div>
+                            <div class="xp-meta"><div class="date">08.2016 &ndash; 12.2016</div><div class="loc">Frankfurt, DE</div></div>
+                        </div>
+                        <ul>
+                            <li data-i18n="asu.1"><strong>asuro Versicherungsmanager</strong>: developed and designed new features (and fixed bugs) in a hybrid mobile insurance app that helps users pick the best deals across major insurers (Allianz, AXA, Generali, ERGO).</li>
+                        </ul>
+                        <div class="tag-row"><span class="tag">Ionic</span><span class="tag">Angular 2</span><span class="tag">Apache Cordova</span><span class="tag">TypeScript</span></div>
+                    </article>
+
+                    <div class="xp-band"><span class="material-symbols-rounded">apartment</span><span data-i18n="bnd.2">Full-Time Industry Roles &middot; Karachi, Pakistan</span></div>
+
+                    <article class="xp-card">
+                        <div class="xp-head">
+                            <div class="xp-co"><div class="ico bg-blue"><span class="material-symbols-rounded">cloud</span></div><div><h3>Connectloud (Pvt) Ltd</h3><div class="role" data-i18n="r.conn">Software Engineer</div></div></div>
+                            <div class="xp-meta"><div class="date">08.2013 &ndash; 09.2015</div><div class="loc">Karachi, PK</div></div>
+                        </div>
+                        <ul>
+                            <li data-i18n="con.1"><strong>UCloud</strong>: a software-defined cloud built on top of multiple clouds for scalable, secure, multi-tenant automation across data centers. Built Java RESTful web services, customized Liferay portlets, the Ext JS front-end, and Docker monitoring.</li>
+                            <li data-i18n="con.2"><strong>HRM</strong>: in-house system automating HR processes (attendance, leave, performance, reporting) with Java REST services and an Ext JS UI.</li>
+                            <li data-i18n="con.3"><strong>ACT</strong>: migrated a Java desktop app for testing Cisco IP phones into a modern web UI.</li>
+                        </ul>
+                        <div class="tag-row"><span class="tag">Java</span><span class="tag">Spring</span><span class="tag">JPA</span><span class="tag">Ext JS</span><span class="tag">Liferay</span><span class="tag">MySQL</span><span class="tag">Docker</span></div>
+                    </article>
+
+                    <article class="xp-card">
+                        <div class="xp-head">
+                            <div class="xp-co"><div class="ico bg-green"><span class="material-symbols-rounded">groups</span></div><div><h3>SofDigital Systems (Pvt) Ltd</h3><div class="role" data-i18n="r.sof">Junior Software Engineer</div></div></div>
+                            <div class="xp-meta"><div class="date">06.2012 &ndash; 07.2013</div><div class="loc">Karachi, PK</div></div>
+                        </div>
+                        <ul>
+                            <li data-i18n="sof.1"><strong>SmartHCM</strong>: a web-based, customizable Human Capital Management system; developed reports with Crystal Reports and PL/SQL and fixed defects.</li>
+                            <li data-i18n="sof.2"><strong>SmartERP</strong>: customized the open-source ERP FrontAccounting to client needs, built PHP reports, and trained the client.</li>
+                        </ul>
+                        <div class="tag-row"><span class="tag">Ext.NET</span><span class="tag">ASP.NET</span><span class="tag">C#</span><span class="tag">PL/SQL</span><span class="tag">NHibernate</span><span class="tag">PHP</span></div>
+                    </article>
+
+                    <article class="xp-card">
+                        <div class="xp-head">
+                            <div class="xp-co"><div class="ico bg-coral"><span class="material-symbols-rounded">sports_cricket</span></div><div><h3>Game Ventures (Pvt) Ltd</h3><div class="role" data-i18n="r.game">Software Engineer</div></div></div>
+                            <div class="xp-meta"><div class="date">08.2011 &ndash; 03.2012</div><div class="loc">Karachi, PK</div></div>
+                        </div>
+                        <ul>
+                            <li data-i18n="gam.1"><strong>Howzat Cricket Game</strong>: a browser-based social cricket game on Facebook, ESPN, and IBIBO, with single-player, friendly, and multiplayer modes. Planned and wrote unit tests (TDD) and handled requirements and technical documentation.</li>
+                        </ul>
+                        <div class="tag-row"><span class="tag">PHP</span><span class="tag">PostgreSQL</span><span class="tag">SimpleTest</span><span class="tag">TDD</span></div>
+                    </article>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- PROJECTS -->
+        <section id="projects" class="section">
+            <div class="sec-head reveal">
+                <div class="kicker"><span class="bar"></span><span data-i18n="p.k">Selected work</span></div>
+                <h2 data-i18n="p.h">Projects</h2>
+                <p data-i18n="p.p">Systems I have designed and shipped, from agents to cloud platforms.</p>
+            </div>
+            <div class="proj-grid">
+
+                <article class="proj reveal">
+                    <div class="proj-cover bg-violet"><span class="material-symbols-rounded">hub</span><span class="flag" data-i18n="pr.flag">IN PRODUCTION</span></div>
+                    <div class="proj-body">
+                        <h3 data-i18n="pj1.h">Agentic Tool Orchestration</h3>
+                        <p data-i18n="pj1.p">Enterprise agentic automation at BITA. JIT tool discovery over MCP with ChromaDB retrieval, LLM-as-a-Judge evaluation, guardrails and fallback chains, and full Langfuse / OpenTelemetry tracing.</p>
+                        <div class="tag-row"><span class="tag">MCP</span><span class="tag">ChromaDB</span><span class="tag">Langfuse</span><span class="tag">Python</span></div>
+                    </div>
+                </article>
+
+                <article class="proj reveal">
+                    <div class="proj-cover bg-coral"><span class="material-symbols-rounded">record_voice_over</span></div>
+                    <div class="proj-body">
+                        <h3 data-i18n="pj2.h">Voice AI Assistant</h3>
+                        <p data-i18n="pj2.p">Production conversational-AI assistant for Deutsche Telekom built with Rasa, spaCy NLU, and FastAPI. Drove a 60% increase in bookings on Kubernetes with Redis caching.</p>
+                        <div class="tag-row"><span class="tag">Rasa</span><span class="tag">spaCy</span><span class="tag">FastAPI</span><span class="tag">Kubernetes</span></div>
+                    </div>
+                </article>
+
+                <article class="proj reveal">
+                    <div class="proj-cover bg-blue"><span class="material-symbols-rounded">menu_book</span></div>
+                    <div class="proj-body">
+                        <h3 data-i18n="pj3.h">Generative AI on AWS</h3>
+                        <p data-i18n="pj3.p">Hands-on RAG and agent builds on Amazon Bedrock: Knowledge Bases with chunking and embeddings, Bedrock Agents and Guardrails, and vector search on OpenSearch and Aurora pgvector.</p>
+                        <div class="tag-row"><span class="tag">Bedrock</span><span class="tag">Knowledge Bases</span><span class="tag">RAG</span><span class="tag">AWS</span></div>
+                    </div>
+                </article>
+
+                <article class="proj reveal">
+                    <div class="proj-cover bg-amber"><span class="material-symbols-rounded">precision_manufacturing</span></div>
+                    <div class="proj-body">
+                        <h3 data-i18n="pj4.h">HIRO Connect Framework</h3>
+                        <p data-i18n="pj4.p">Middleware at arago translating Customer Service Management items to and from the HIRO AI engine. Designed the test strategy and built test automation over Oracle RDBMS.</p>
+                        <div class="tag-row"><span class="tag">AI Middleware</span><span class="tag">Java SE</span><span class="tag">Oracle</span><span class="tag">JUnit</span></div>
+                    </div>
+                </article>
+
+                <article class="proj reveal">
+                    <div class="proj-cover bg-green"><span class="material-symbols-rounded">grading</span></div>
+                    <div class="proj-body">
+                        <h3 data-i18n="pj5.h">Automated Exam Grading (ATGE)</h3>
+                        <p data-i18n="pj5.p">M.Sc. thesis at TU Darmstadt: grades scanned exam sheets automatically using OCR (Google Cloud Vision, Azure Computer Vision), OpenCV layout parsing, and NLP scoring with Apache OpenNLP.</p>
+                        <div class="tag-row"><span class="tag">NLP</span><span class="tag">OCR</span><span class="tag">Java SE</span><span class="tag">OpenCV</span><span class="tag">MongoDB</span></div>
+                    </div>
+                </article>
+
+                <article class="proj reveal">
+                    <div class="proj-cover bg-teal"><span class="material-symbols-rounded">cloud_sync</span></div>
+                    <div class="proj-body">
+                        <h3 data-i18n="pj6.h">UCloud Platform</h3>
+                        <p data-i18n="pj6.p">Software-defined cloud at Connectloud, built on top of multiple clouds for secure, multi-tenant automation across data centers. Built Java REST services, Liferay portlets, and an Ext JS UI.</p>
+                        <div class="tag-row"><span class="tag">Java</span><span class="tag">Spring</span><span class="tag">Ext JS</span><span class="tag">Liferay</span><span class="tag">Docker</span></div>
+                    </div>
+                </article>
+
+            </div>
+        </section>
+
+        <!-- CERTIFICATIONS -->
+        <section id="certifications" class="section">
+            <div class="sec-head reveal">
+                <div class="kicker"><span class="bar"></span><span data-i18n="c.k">Credentials</span></div>
+                <h2 data-i18n="c.h">Certifications &amp; Awards</h2>
+                <p data-i18n="c.p">Verified cloud, AI, and academic credentials.</p>
+            </div>
+            <div class="cert-grid">
+                <div class="cert reveal">
+                    <div class="ico bg-blue"><span class="material-symbols-rounded">cloud_done</span></div>
+                    <div>
+                        <h3>AWS Certified Solutions Architect, Associate</h3>
+                        <p>Amazon Web Services &middot; 2025</p>
+                        <a href="https://www.credly.com/badges/e6491071-0c9c-49c8-a9b6-82da29004aea/public_url" target="_blank" rel="noopener" data-i18n="c.view">View credential &rarr;</a>
+                    </div>
+                </div>
+                <div class="cert reveal">
+                    <div class="ico bg-violet"><span class="material-symbols-rounded">smart_toy</span></div>
+                    <div>
+                        <h3>Generative AI on AWS: Bedrock, Agents, RAG &amp; Guardrails</h3>
+                        <p data-i18n="c.course">Course &middot; 2025</p>
+                    </div>
+                </div>
+                <div class="cert reveal">
+                    <div class="ico bg-teal"><span class="material-symbols-rounded">neurology</span></div>
+                    <div>
+                        <h3>AI Engineer Core Track: LLM Engineering, RAG, QLoRA, Agents</h3>
+                        <p>Udemy &middot; 2025</p>
+                    </div>
+                </div>
+                <div class="cert reveal">
+                    <div class="ico bg-green"><span class="material-symbols-rounded">sync_alt</span></div>
+                    <div>
+                        <h3>Professional Scrum Developer I (PSD I)</h3>
+                        <p>Scrum.org &middot; 2023</p>
+                        <a href="https://www.credly.com/badges/63d41732-27c5-4d6e-8e8a-e037c9a41372" target="_blank" rel="noopener" data-i18n="c.view">View credential &rarr;</a>
+                    </div>
+                </div>
+                <div class="cert reveal">
+                    <div class="ico bg-slate"><span class="material-symbols-rounded">shield_lock</span></div>
+                    <div>
+                        <h3>ForgeRock Certified Access Management Specialist</h3>
+                        <p>ForgeRock &middot; 2020</p>
+                    </div>
+                </div>
+                <div class="cert reveal">
+                    <div class="ico bg-amber"><span class="material-symbols-rounded">translate</span></div>
+                    <div>
+                        <h3 data-i18n="c.de.h">German B2 (CEFR), Deutsch-Test f&uuml;r den Beruf</h3>
+                        <p data-i18n="c.de.p">B1 &amp; B2 certified &middot; 2025</p>
+                    </div>
+                </div>
+                <div class="cert reveal">
+                    <div class="ico bg-coral"><span class="material-symbols-rounded">school</span></div>
+                    <div>
+                        <h3 data-i18n="c.fb.h">Fulbright Scholarship</h3>
+                        <p data-i18n="c.fb.p">Four-year fully-funded merit award for the B.Sc. in Computer Science &middot; FAST NUCES, Karachi</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTACT -->
+        <section id="contact" class="section">
+            <div class="contact-card reveal">
+                <div class="spectrum-strip"></div>
+                <div>
+                    <h2 data-i18n="k.h2">Let&rsquo;s build something.</h2>
+                    <p data-i18n="k.p">Open to AI Engineer roles. Reach me by email or on LinkedIn.</p>
+                </div>
+                <div class="contact-actions">
+                    <a href="mailto:rafique.nazir@gmail.com" class="btn btn-light"><span class="material-symbols-rounded">mail</span><span data-i18n="k.email">Email me</span></a>
+                    <a href="https://www.linkedin.com/in/rafique-nazir-056ba41a/" target="_blank" rel="noopener" class="btn btn-ghost"><span class="material-symbols-rounded">person</span>LinkedIn</a>
+                    <a href="assets/RafiqueNazir-CV.pdf" target="_blank" rel="noopener" class="btn btn-ghost"><span class="material-symbols-rounded">description</span><span data-i18n="k.resume">Resume</span></a>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <ul class="footer-links">
+                <li><a href="https://www.linkedin.com/in/rafique-nazir-056ba41a/" target="_blank" rel="noopener">LinkedIn</a></li>
+                <li><a href="https://github.com/rafique1990" target="_blank" rel="noopener">GitHub</a></li>
+                <li><a href="https://credly.com/users/rafique-nazir" target="_blank" rel="noopener">Credly</a></li>
+                <li><a href="assets/RafiqueNazir-CV.pdf" target="_blank" rel="noopener" data-i18n="n.rs">Resume</a></li>
+            </ul>
+            <p class="footer-note" data-i18n="f.note">Rafique Nazir &middot; AI Engineer &middot; Darmstadt, Germany</p>
+        </footer>
+    </div>
+
+    <script>
+        /* ---------- German translations ---------- */
+        const I18N_DE = {
+            'n.sk': 'Fähigkeiten', 'n.xp': 'Erfahrung', 'n.pr': 'Projekte', 'n.cr': 'Qualifikationen', 'n.rs': 'Lebenslauf', 'n.ct': 'Kontakt',
+
+            'h.eb': 'Verfügbar für AI-Engineer-Stellen',
+            'h.h1': '<span class="spectrum-text">Intelligente</span> Systeme, die in Produktion gehen.',
+            'h.role': 'Rafique Nazir &middot; AI Engineer',
+            'h.lead': 'Ich mache aus Sprachmodellen zuverlässige Produkte: <strong>Agenten</strong>, <strong>RAG</strong> und das <strong>Model Context Protocol</strong>, auf Basis von mehr als zehn Jahren Backend-Erfahrung und <strong>AWS</strong>.',
+            'h.rs': 'Lebenslauf herunterladen',
+
+            'hl.k': 'Auf einen Blick',
+            'hl1.b': 'Agentische KI', 'hl1.l': 'MCP, RAG und LLM-Agenten in Produktion gebracht',
+            'hl2.b': 'AWS-zertifiziert', 'hl2.l': 'Solutions Architect, Associate &middot; Amazon Bedrock',
+            'hl3.b': '10+ Jahre', 'hl3.l': 'Backend-Engineering in Python, Java und der Cloud',
+            'hl4.b': '+60% Buchungen', 'hl4.l': 'Voice-AI-Assistent für die Deutsche Telekom umgesetzt',
+
+            's.k': 'Womit ich arbeite', 's.h': 'Fähigkeiten',
+            's.p': 'Vom Modell-Layer bis zur Infrastruktur, die es in Produktion betreibt.',
+            's1.h': 'LLM &amp; agentische KI',
+            's1.p': 'Agenten-Orchestrierung und Tool-Nutzung: Just-in-Time-Tool-Discovery über das Model Context Protocol (MCP), RAG-Pipelines mit Chunking und Reranking, semantische Tool-Suche mit Embeddings sowie Guardrails und Fallback-Ketten, die Agenten berechenbar halten.',
+            's2.h': 'LLM-Evaluierung &amp; Monitoring',
+            's2.p': 'Nachvollziehen mehrstufiger Agenten-Konversationen mit Langfuse und OpenTelemetry, LLM-as-a-Judge-Evaluierung zur Prüfung von Tool-Auswahl und Ausgabequalität sowie Prompt-Engineering für Kosten und Zuverlässigkeit in Produktion.',
+            's3.h': 'AWS &amp; generative KI',
+            's3.p': 'AWS Certified Solutions Architect, Associate. Praxis mit Amazon Bedrock (Foundation Models, Agents, Knowledge Bases, Guardrails), SageMaker, Amazon Q und Vektor-Stores auf OpenSearch und Aurora pgvector. Cloud-Design mit EC2, S3, IAM, VPC, RDS und CloudWatch.',
+            's4.h': 'Backend &amp; DevOps',
+            's4.p': 'Asynchrone Python-Microservices mit FastAPI und asyncio, PostgreSQL mit SQLAlchemy, Redis und Event-Streaming mit Kafka und RabbitMQ. Kubernetes, Docker, Terraform und Helm, mit CI/CD, Prometheus, Grafana und Pytest.',
+
+            'st.h': 'Kompletter Tech-Stack',
+            'st.p': 'Technologien, mit denen ich in verschiedenen Rollen gearbeitet habe.',
+            'st.c1': 'Sprachen', 'st.c2': 'KI &amp; LLM', 'st.c3': 'AWS &amp; Cloud', 'st.c4': 'Backend &amp; APIs',
+            'st.c5': 'Datenbanken', 'st.c6': 'Daten &amp; Messaging', 'st.c7': 'ORM &amp; Migrationen', 'st.c8': 'DevOps &amp; IaC',
+            'st.c9': 'Testing &amp; Qualität', 'st.c10': 'Frontend &amp; Mobile', 'st.c11': 'Big Data &amp; verteilte Systeme',
+            'st.c12': 'Reporting &amp; Dokumentation', 'st.c13': 'Sicherheit', 'st.c14': 'Tools &amp; Versionsverwaltung',
+
+            'x.k': 'In Produktion gebaut', 'x.h': 'Erfahrung',
+            'x.p': 'Ein Jahrzehnt Backend-Engineering, jetzt mit Fokus auf KI in Produktion.',
+
+            'r.bita': 'AI Engineer',
+            'bita.1': 'Arbeit an einem Enterprise-KI-Projekt, das Geschäftsprozesse mit LLM-Agenten automatisiert.',
+            'bita.2': 'Ein <strong>Just-in-Time-Tool-Discovery</strong>-System mit dem <strong>Model Context Protocol (MCP)</strong> gebaut, sodass Agenten zur Laufzeit anhand der Nutzeranfrage die passende API finden und aufrufen.',
+            'bita.3': 'Tracing und Monitoring mit <strong>Langfuse</strong> und <strong>OpenTelemetry</strong> ergänzt, um mehrstufige Agenten-Konversationen nachzuvollziehen und in Produktion zu debuggen.',
+            'bita.4': 'Ein <strong>LLM-as-a-Judge</strong>-Evaluierungssetup gebaut, das prüft, ob Agenten die richtigen Tools wählen und gültige Ausgaben liefern.',
+            'bita.5': '<strong>Fallback-Ketten</strong> und Input-/Output-<strong>Guardrails</strong> ergänzt, um das Verhalten der Agenten berechenbar und sicher zu halten.',
+            'bita.6': 'Geschwindigkeit und Relevanz der Tool-Suche mit <strong>ChromaDB</strong> und Embeddings verbessert.',
+
+            't.pd': 'Weiterbildung &amp; Cloud-Zertifizierung',
+            'r.pd': 'Auszeit (AWS &amp; Deutsch)',
+            'pd.1': 'Die Zertifizierung <strong>AWS Certified Solutions Architect, Associate</strong> erworben und generative KI auf AWS vertieft (Amazon Bedrock, RAG, Guardrails).',
+            'pd.2': 'Intensiven Deutschkurs absolviert und die offiziellen Prüfungen <strong>B1 und B2 (GER)</strong> für berufliche Arbeitsfähigkeit bestanden.',
+
+            'r.ax': 'Softwareentwickler',
+            'ax.1': 'Wesentlicher Beitrag zu einem <strong>Voice-AI-Assistenten</strong> für die Deutsche Telekom mit <strong>Rasa</strong> und <strong>Python</strong>, der zu <strong>60% mehr Buchungen</strong> beitrug.',
+            'ax.2': 'Microservices und REST-APIs mit FastAPI gebaut und ML-Module sowie <strong>spaCy</strong>-basiertes NLU in produktive Conversational-AI-Pipelines integriert.',
+            'ax.3': 'Performance mit <strong>Redis-Caching</strong> und asynchroner Verarbeitung verbessert.',
+            'ax.4': 'CI/CD und Infrastruktur mit <strong>Kubernetes</strong>, <strong>Terraform</strong>, <strong>Helm</strong> und GitLab CI/CD aufgesetzt und Junior-Entwickler betreut.',
+
+            'bnd.1': 'Werkstudenten- &amp; Praktikanten-Stellen &middot; Deutschland',
+            'bnd.2': 'Festanstellungen in der Industrie &middot; Karachi, Pakistan',
+
+            'r.idat': 'Softwareentwickler (Werkstudent)',
+            'idat.1': '<strong>CompareDB</strong>: eine Desktop-Anwendung von Grund auf für die Datenmigration auf Microsoft SQL Server gebaut, die Tabellen und ihre abhängigen Tabellen ohne Primär-/Fremdschlüssel-Beziehungen synchronisiert.',
+            'idat.2': '<strong>Unitechnik Excel-Plugin</strong>: ein VSTO-Excel-Add-in entwickelt, das Tabelleninhalte validiert und ein definiertes Ausgabeformat für ein internes Tool erzeugt.',
+
+            'r.arago': 'Studentischer Praktikant',
+            'arg.1': 'Am <strong>HIRO Connect Framework</strong> gearbeitet, einer Middleware, die Elemente aus dem Customer-Service-Management zur HIRO-<strong>KI-Engine</strong> und zurück übersetzt (arago ist ein führendes B2B-KI-Unternehmen mit Machine Reasoning).',
+            'arg.2': 'Teststrategie entworfen, Testfälle geschrieben und Testautomatisierung über Oracle RDBMS mit Java SE und JUnit aufgebaut.',
+
+            'r.asuro': 'Webentwickler (Werkstudent)',
+            'asu.1': '<strong>asuro Versicherungsmanager</strong>: neue Features entwickelt und gestaltet (und Fehler behoben) in einer hybriden mobilen Versicherungs-App, die Nutzern hilft, die besten Angebote großer Versicherer zu finden (Allianz, AXA, Generali, ERGO).',
+
+            'r.conn': 'Softwareentwickler',
+            'con.1': '<strong>UCloud</strong>: eine Software-defined Cloud auf Basis mehrerer Clouds für skalierbare, sichere, mandantenfähige Automatisierung über Rechenzentren hinweg. Java-RESTful-Webservices, angepasste Liferay-Portlets, das Ext-JS-Frontend und Docker-Monitoring gebaut.',
+            'con.2': '<strong>HRM</strong>: internes System zur Automatisierung von HR-Prozessen (Anwesenheit, Urlaub, Leistung, Reporting) mit Java-REST-Services und Ext-JS-Oberfläche.',
+            'con.3': '<strong>ACT</strong>: eine Java-Desktop-App zum Testen von Cisco-IP-Telefonen in eine moderne Web-Oberfläche migriert.',
+
+            'r.sof': 'Junior-Softwareentwickler',
+            'sof.1': '<strong>SmartHCM</strong>: ein webbasiertes, anpassbares Human-Capital-Management-System; Reports mit Crystal Reports und PL/SQL entwickelt und Fehler behoben.',
+            'sof.2': '<strong>SmartERP</strong>: das Open-Source-ERP FrontAccounting an Kundenbedürfnisse angepasst, PHP-Reports gebaut und den Kunden geschult.',
+
+            'r.game': 'Softwareentwickler',
+            'gam.1': '<strong>Howzat Cricket Game</strong>: ein browserbasiertes Social-Cricket-Spiel auf Facebook, ESPN und IBIBO mit Einzelspieler-, Freundschafts- und Mehrspieler-Modus. Unit-Tests geplant und geschrieben (TDD) sowie Anforderungen und technische Dokumentation betreut.',
+
+            'p.k': 'Ausgewählte Arbeiten', 'p.h': 'Projekte',
+            'p.p': 'Systeme, die ich entworfen und ausgeliefert habe, von Agenten bis zu Cloud-Plattformen.',
+            'pr.flag': 'IN PRODUKTION',
+            'pj1.h': 'Agentische Tool-Orchestrierung',
+            'pj1.p': 'Agentische Enterprise-Automatisierung bei BITA. JIT-Tool-Discovery über MCP mit ChromaDB-Retrieval, LLM-as-a-Judge-Evaluierung, Guardrails und Fallback-Ketten sowie vollständigem Langfuse-/OpenTelemetry-Tracing.',
+            'pj2.h': 'Voice-AI-Assistent',
+            'pj2.p': 'Produktiver Conversational-AI-Assistent für die Deutsche Telekom mit Rasa, spaCy-NLU und FastAPI. Steigerte die Buchungen um 60%, betrieben auf Kubernetes mit Redis-Caching.',
+            'pj3.h': 'Generative KI auf AWS',
+            'pj3.p': 'Praktische RAG- und Agenten-Builds auf Amazon Bedrock: Knowledge Bases mit Chunking und Embeddings, Bedrock Agents und Guardrails sowie Vektorsuche auf OpenSearch und Aurora pgvector.',
+            'pj4.h': 'HIRO Connect Framework',
+            'pj4.p': 'Middleware bei arago, die Elemente aus dem Customer-Service-Management zur HIRO-KI-Engine und zurück übersetzt. Teststrategie entworfen und Testautomatisierung über Oracle RDBMS aufgebaut.',
+            'pj5.h': 'Automatische Klausurbewertung (ATGE)',
+            'pj5.p': 'M.Sc.-Thesis an der TU Darmstadt: bewertet gescannte Klausuren automatisch mit OCR (Google Cloud Vision, Azure Computer Vision), OpenCV-Layout-Analyse und NLP-Scoring mit Apache OpenNLP.',
+            'pj6.h': 'UCloud-Plattform',
+            'pj6.p': 'Software-defined Cloud bei Connectloud auf Basis mehrerer Clouds für sichere, mandantenfähige Automatisierung über Rechenzentren hinweg. Java-REST-Services, Liferay-Portlets und eine Ext-JS-Oberfläche gebaut.',
+
+            'c.k': 'Qualifikationen', 'c.h': 'Zertifikate &amp; Auszeichnungen',
+            'c.p': 'Verifizierte Cloud-, KI- und akademische Nachweise.',
+            'c.view': 'Zertifikat ansehen &rarr;',
+            'c.course': 'Kurs &middot; 2025',
+            'c.de.h': 'Deutsch B2 (GER), Deutsch-Test für den Beruf',
+            'c.de.p': 'B1 &amp; B2 zertifiziert &middot; 2025',
+            'c.fb.h': 'Fulbright-Stipendium',
+            'c.fb.p': 'Vierjähriges, voll finanziertes Leistungsstipendium für den B.Sc. Informatik &middot; FAST NUCES, Karachi',
+
+            'k.h2': 'Lassen Sie uns etwas bauen.',
+            'k.p': 'Offen für AI-Engineer-Stellen. Erreichbar per E-Mail oder auf LinkedIn.',
+            'k.email': 'E-Mail schreiben', 'k.resume': 'Lebenslauf',
+
+            'f.note': 'Rafique Nazir &middot; AI Engineer &middot; Darmstadt, Deutschland'
+        };
+
+        const XP_LABEL = {
+            more: { en: 'Show earlier roles', de: 'Frühere Stellen anzeigen' },
+            less: { en: 'Show fewer',          de: 'Weniger anzeigen' }
+        };
+
+        /* ---------- Language switching ---------- */
+        const i18nEls = Array.from(document.querySelectorAll('[data-i18n]'));
+        const enStore = {};
+        i18nEls.forEach(el => { enStore[el.dataset.i18n] = el.innerHTML; });
+        let curLang = 'en';
+
+        const xpMore = document.getElementById('xpMore');
+        const xpToggle = document.getElementById('xpToggle');
+        const xpToggleIcon = document.getElementById('xpToggleIcon');
+        const xpToggleLabel = document.getElementById('xpToggleLabel');
+
+        function updateXpLabel() {
+            const collapsed = xpMore.classList.contains('xp-collapsed');
+            xpToggleLabel.textContent = XP_LABEL[collapsed ? 'more' : 'less'][curLang];
+            xpToggleIcon.textContent = collapsed ? 'expand_more' : 'expand_less';
+        }
+
+        function setLang(lang) {
+            curLang = (lang === 'de') ? 'de' : 'en';
+            document.documentElement.lang = curLang;
+            i18nEls.forEach(el => {
+                const key = el.dataset.i18n;
+                el.innerHTML = (curLang === 'de' && I18N_DE[key] != null) ? I18N_DE[key] : enStore[key];
+            });
+            document.querySelectorAll('.lang-seg button').forEach(b => b.classList.toggle('active', b.dataset.lang === curLang));
+            updateXpLabel();
+            try { localStorage.setItem('lang', curLang); } catch (e) {}
+        }
+
+        document.querySelectorAll('.lang-seg button').forEach(b => b.addEventListener('click', () => setLang(b.dataset.lang)));
+
+        /* ---------- Progressive disclosure of earlier roles ---------- */
+        xpToggle.addEventListener('click', () => {
+            const nowCollapsed = xpMore.classList.toggle('xp-collapsed');
+            xpToggle.setAttribute('aria-expanded', String(!nowCollapsed));
+            if (!nowCollapsed) {
+                xpMore.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
+            }
+            updateXpLabel();
+        });
+
+        /* ---------- Mobile menu ---------- */
+        const menuBtn = document.getElementById('menuBtn');
+        const navLinks = document.getElementById('navLinks');
+        const menuIcon = document.getElementById('menuIcon');
+        menuBtn.addEventListener('click', () => {
+            const open = navLinks.classList.toggle('open');
+            menuIcon.textContent = open ? 'close' : 'menu';
+            menuBtn.setAttribute('aria-expanded', String(open));
+        });
+        navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+            navLinks.classList.remove('open');
+            menuIcon.textContent = 'menu';
+            menuBtn.setAttribute('aria-expanded', 'false');
+        }));
+
+        /* ---------- Nav elevation ---------- */
+        const topnav = document.getElementById('topnav');
+        window.addEventListener('scroll', () => { topnav.classList.toggle('scrolled', window.scrollY > 8); }, { passive: true });
+
+        /* ---------- Scroll reveal ---------- */
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, i) => {
+                if (entry.isIntersecting) {
+                    entry.target.style.transitionDelay = `${Math.min(i * 60, 240)}ms`;
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.12 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        /* ---------- Init language from storage ---------- */
+        let saved = 'en';
+        try { saved = localStorage.getItem('lang') || 'en'; } catch (e) {}
+        setLang(saved);
+    </script>
+</body>
+</html>
