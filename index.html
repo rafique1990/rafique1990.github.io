@@ -185,6 +185,8 @@
         .xp-co .ico { width: 48px; height: 48px; border-radius: var(--r-md); display: inline-flex; align-items: center; justify-content: center; color: #fff; flex-shrink: 0; border: 2px solid var(--ink); }
         .xp-co .ico .material-symbols-rounded { font-size: 1.45rem; vertical-align: 0; }
         .xp-co h3 { font-size: 1.25rem; font-weight: 700; }
+        .xp-co h3 a { color: inherit; text-decoration: none; border-bottom: 2.5px solid var(--blue); transition: color .15s var(--ease); }
+        .xp-co h3 a:hover { color: var(--blue); }
         .xp-co .role { font-size: 0.9rem; color: var(--ink-2); font-weight: 500; }
         .xp-meta { text-align: right; }
         .xp-meta .date { font-family: var(--mono); font-size: 0.85rem; font-weight: 500; color: var(--ink); }
@@ -454,7 +456,7 @@
 
                 <article class="xp-card reveal">
                     <div class="xp-head">
-                        <div class="xp-co"><div class="ico bg-violet"><span class="material-symbols-rounded">smart_toy</span></div><div><h3>BITA</h3><div class="role" data-i18n="r.bita">AI Engineer</div></div></div>
+                        <div class="xp-co"><div class="ico bg-violet"><span class="material-symbols-rounded">smart_toy</span></div><div><h3><a href="https://bitadata.com" target="_blank" rel="noopener">BITA</a></h3><div class="role" data-i18n="r.bita">AI Engineer</div></div></div>
                         <div class="xp-meta"><div class="date">01.2026 &ndash; Present</div><div class="loc">Frankfurt am Main, DE &middot; Hybrid</div></div>
                     </div>
                     <ul>
@@ -482,14 +484,16 @@
 
                 <article class="xp-card reveal">
                     <div class="xp-head">
-                        <div class="xp-co"><div class="ico bg-coral"><span class="material-symbols-rounded">record_voice_over</span></div><div><h3>axxessio GmbH</h3><div class="role" data-i18n="r.ax">Software Engineer</div></div></div>
+                        <div class="xp-co"><div class="ico bg-coral"><span class="material-symbols-rounded">record_voice_over</span></div><div><h3><a href="https://axxessio.com" target="_blank" rel="noopener">axxessio GmbH</a></h3><div class="role" data-i18n="r.ax">Software Engineer</div></div></div>
                         <div class="xp-meta"><div class="date">01.2020 &ndash; 08.2024</div><div class="loc">Darmstadt, DE</div></div>
                     </div>
                     <ul>
-                        <li data-i18n="ax.1">Key contributor to a <strong>voice AI assistant</strong> for Deutsche Telekom using <strong>Rasa</strong> and <strong>Python</strong>, helping achieve a <strong>60% increase in bookings</strong>.</li>
-                        <li data-i18n="ax.2">Built microservices and REST APIs with FastAPI, and integrated ML modules and <strong>spaCy</strong>-based NLU into production conversational-AI pipelines.</li>
-                        <li data-i18n="ax.3">Improved performance with <strong>Redis caching</strong> and async processing.</li>
-                        <li data-i18n="ax.4">Set up CI/CD and infrastructure with <strong>Kubernetes</strong>, <strong>Terraform</strong>, <strong>Helm</strong>, and GitLab CI/CD, and mentored junior engineers.</li>
+                        <li data-i18n="ax.1">Designed and implemented a <strong>voice-based AI assistant</strong> using Python and Rasa for Deutsche Telekom, boosting appointment bookings by <strong>60%</strong> through advanced NLP integration.</li>
+                        <li data-i18n="ax.2">Architected <strong>Kubernetes auto-scaling</strong> workflows and built robust CI/CD pipelines with GitLab, Terraform, and SonarQube, ensuring deployment consistency and infrastructure resilience.</li>
+                        <li data-i18n="ax.3">Led the refactoring of a legacy system into a modern <strong>microservices architecture</strong>, improving maintainability and deployment efficiency.</li>
+                        <li data-i18n="ax.4">Integrated APIs from multiple enterprise partners, enabling real-time interoperability and seamless data exchange across platforms.</li>
+                        <li data-i18n="ax.5">Optimized backend performance with <strong>Redis caching</strong> and PostgreSQL indexing, achieving a <strong>40% reduction in API response times</strong>.</li>
+                        <li data-i18n="ax.6">Mentored junior engineers and promoted engineering excellence through code reviews, onboarding sessions, and documentation initiatives.</li>
                     </ul>
                     <div class="tag-row"><span class="tag">Python</span><span class="tag">FastAPI</span><span class="tag">Rasa</span><span class="tag">spaCy</span><span class="tag">Redis</span><span class="tag">Kubernetes</span><span class="tag">Terraform</span></div>
                 </article>
@@ -504,12 +508,13 @@
 
                     <article class="xp-card">
                         <div class="xp-head">
-                            <div class="xp-co"><div class="ico bg-slate"><span class="material-symbols-rounded">sync_alt</span></div><div><h3>IDAT GmbH</h3><div class="role" data-i18n="r.idat">Software Engineer (Working Student)</div></div></div>
-                            <div class="xp-meta"><div class="date">09.2017 &ndash; 09.2019</div><div class="loc">Darmstadt, DE</div></div>
+                            <div class="xp-co"><div class="ico bg-slate"><span class="material-symbols-rounded">sync_alt</span></div><div><h3><a href="https://idat.de" target="_blank" rel="noopener">IDAT GmbH</a></h3><div class="role" data-i18n="r.idat">Software Developer (Working Student)</div></div></div>
+                            <div class="xp-meta"><div class="date">09.2017 &ndash; 11.2019</div><div class="loc">Darmstadt, DE</div></div>
                         </div>
                         <ul>
-                            <li data-i18n="idat.1"><strong>CompareDB</strong>: built a desktop application from scratch for data migration on Microsoft SQL Server, syncing tables and their dependent tables where no primary/foreign-key relationships existed.</li>
-                            <li data-i18n="idat.2"><strong>Unitechnik Excel Plugin</strong>: developed a VSTO Excel add-in that validates spreadsheet content and produces a defined output format for an in-house tool.</li>
+                            <li data-i18n="idat.1">Built a secure <strong>ETL migration tool</strong> for ERP data, enabling staging environments for client demos without affecting live systems.</li>
+                            <li data-i18n="idat.2">Developed an <strong>Excel plugin</strong> to automate data validation and AutoCAD imports, reducing manual errors and accelerating reporting cycles.</li>
+                            <li data-i18n="idat.3">Acted as a liaison between technical teams and the CEO and sales unit, delivering solutions that balanced business goals with technical feasibility.</li>
                         </ul>
                         <div class="tag-row"><span class="tag">C#</span><span class="tag">MS SQL Server</span><span class="tag">SMO / SSIS</span><span class="tag">VSTO</span><span class="tag">NUnit / tSQLt</span><span class="tag">TFS</span></div>
                     </article>
@@ -520,19 +525,21 @@
                             <div class="xp-meta"><div class="date">06.2017 &ndash; 08.2017</div><div class="loc">Frankfurt, DE</div></div>
                         </div>
                         <ul>
-                            <li data-i18n="arg.1">Worked on the <strong>HIRO Connect Framework</strong>, middleware translating Customer Service Management items to and from the HIRO <strong>AI engine</strong> (arago is a leading B2B AI company using machine reasoning).</li>
-                            <li data-i18n="arg.2">Designed the test strategy, wrote test cases, and built test automation over Oracle RDBMS with Java SE and JUnit.</li>
+                            <li data-i18n="arg.1">Contributed to backend testing infrastructure within <strong>AI-based middleware</strong> systems.</li>
+                            <li data-i18n="arg.2">Designed and implemented robust <strong>test automation frameworks</strong> to streamline backend regression cycles.</li>
+                            <li data-i18n="arg.3">Applied <strong>TDD</strong> principles and built integration testing layers to validate distributed components in real time.</li>
                         </ul>
                         <div class="tag-row"><span class="tag">AI Middleware</span><span class="tag">Java SE</span><span class="tag">Oracle</span><span class="tag">JUnit</span></div>
                     </article>
 
                     <article class="xp-card">
                         <div class="xp-head">
-                            <div class="xp-co"><div class="ico bg-teal"><span class="material-symbols-rounded">health_and_safety</span></div><div><h3>asuro GmbH</h3><div class="role" data-i18n="r.asuro">Web Developer (Working Student)</div></div></div>
+                            <div class="xp-co"><div class="ico bg-teal"><span class="material-symbols-rounded">health_and_safety</span></div><div><h3><a href="https://asuro.de" target="_blank" rel="noopener">asuro GmbH</a></h3><div class="role" data-i18n="r.asuro">Web Developer (Working Student)</div></div></div>
                             <div class="xp-meta"><div class="date">08.2016 &ndash; 12.2016</div><div class="loc">Frankfurt, DE</div></div>
                         </div>
                         <ul>
-                            <li data-i18n="asu.1"><strong>asuro Versicherungsmanager</strong>: developed and designed new features (and fixed bugs) in a hybrid mobile insurance app that helps users pick the best deals across major insurers (Allianz, AXA, Generali, ERGO).</li>
+                            <li data-i18n="asu.1">Developed and optimized <strong>backend API integrations</strong> for an insurance platform, improving data consistency and system responsiveness.</li>
+                            <li data-i18n="asu.2">Supported Agile sprints, collaborating with product designers and developers to enhance UI performance and backend efficiency.</li>
                         </ul>
                         <div class="tag-row"><span class="tag">Ionic</span><span class="tag">Angular 2</span><span class="tag">Apache Cordova</span><span class="tag">TypeScript</span></div>
                     </article>
@@ -541,25 +548,27 @@
 
                     <article class="xp-card">
                         <div class="xp-head">
-                            <div class="xp-co"><div class="ico bg-blue"><span class="material-symbols-rounded">cloud</span></div><div><h3>Connectloud (Pvt) Ltd</h3><div class="role" data-i18n="r.conn">Software Engineer</div></div></div>
+                            <div class="xp-co"><div class="ico bg-blue"><span class="material-symbols-rounded">cloud</span></div><div><h3>Connectloud (Pvt) Ltd</h3><div class="role" data-i18n="r.conn">Senior Software Engineer</div></div></div>
                             <div class="xp-meta"><div class="date">08.2013 &ndash; 09.2015</div><div class="loc">Karachi, PK</div></div>
                         </div>
                         <ul>
-                            <li data-i18n="con.1"><strong>UCloud</strong>: a software-defined cloud built on top of multiple clouds for scalable, secure, multi-tenant automation across data centers. Built Java RESTful web services, customized Liferay portlets, the Ext JS front-end, and Docker monitoring.</li>
-                            <li data-i18n="con.2"><strong>HRM</strong>: in-house system automating HR processes (attendance, leave, performance, reporting) with Java REST services and an Ext JS UI.</li>
-                            <li data-i18n="con.3"><strong>ACT</strong>: migrated a Java desktop app for testing Cisco IP phones into a modern web UI.</li>
+                            <li data-i18n="con.1">Designed and developed <strong>RESTful microservices</strong> using Java and Docker for the <strong>UCloud</strong> platform, a software-defined cloud enabling scalable and secure resource orchestration across multiple data centers.</li>
+                            <li data-i18n="con.2">Built and customized enterprise <strong>HRM modules</strong>, streamlining attendance, leave, and performance tracking with web technologies and REST APIs.</li>
+                            <li data-i18n="con.3">Modernized a desktop QA tool for <strong>Cisco IP phones</strong> by migrating it to a responsive web interface using AngularJS and Bootstrap.</li>
+                            <li data-i18n="con.4">Collaborated with cross-functional teams, participated in code reviews, and maintained documentation to support scalable software delivery.</li>
                         </ul>
                         <div class="tag-row"><span class="tag">Java</span><span class="tag">Spring</span><span class="tag">JPA</span><span class="tag">Ext JS</span><span class="tag">Liferay</span><span class="tag">MySQL</span><span class="tag">Docker</span></div>
                     </article>
 
                     <article class="xp-card">
                         <div class="xp-head">
-                            <div class="xp-co"><div class="ico bg-green"><span class="material-symbols-rounded">groups</span></div><div><h3>SofDigital Systems (Pvt) Ltd</h3><div class="role" data-i18n="r.sof">Junior Software Engineer</div></div></div>
+                            <div class="xp-co"><div class="ico bg-green"><span class="material-symbols-rounded">groups</span></div><div><h3><a href="https://sofdigital.com" target="_blank" rel="noopener">SofDigital Systems</a></h3><div class="role" data-i18n="r.sof">Junior Software Engineer</div></div></div>
                             <div class="xp-meta"><div class="date">06.2012 &ndash; 07.2013</div><div class="loc">Karachi, PK</div></div>
                         </div>
                         <ul>
-                            <li data-i18n="sof.1"><strong>SmartHCM</strong>: a web-based, customizable Human Capital Management system; developed reports with Crystal Reports and PL/SQL and fixed defects.</li>
-                            <li data-i18n="sof.2"><strong>SmartERP</strong>: customized the open-source ERP FrontAccounting to client needs, built PHP reports, and trained the client.</li>
+                            <li data-i18n="sof.1">Maintained and enhanced <strong>SmartHCM</strong>, focusing on backend query optimization and custom reporting with PL/SQL and Crystal Reports.</li>
+                            <li data-i18n="sof.2">Customized the open-source ERP <strong>FrontAccounting</strong>, extending financial and reporting modules for regional accounting workflows and client requirements.</li>
+                            <li data-i18n="sof.3">Worked closely with non-technical stakeholders to define business logic, documented changes, and trained end users after deployment.</li>
                         </ul>
                         <div class="tag-row"><span class="tag">Ext.NET</span><span class="tag">ASP.NET</span><span class="tag">C#</span><span class="tag">PL/SQL</span><span class="tag">NHibernate</span><span class="tag">PHP</span></div>
                     </article>
@@ -570,7 +579,9 @@
                             <div class="xp-meta"><div class="date">08.2011 &ndash; 03.2012</div><div class="loc">Karachi, PK</div></div>
                         </div>
                         <ul>
-                            <li data-i18n="gam.1"><strong>Howzat Cricket Game</strong>: a browser-based social cricket game on Facebook, ESPN, and IBIBO, with single-player, friendly, and multiplayer modes. Planned and wrote unit tests (TDD) and handled requirements and technical documentation.</li>
+                            <li data-i18n="gam.1">Developed and maintained backend modules for player analytics and in-game logic for <a href="https://howzat.com" target="_blank" rel="noopener"><strong>Howzat</strong></a>, a real-time social cricket game on Facebook and ESPN, using PHP and PostgreSQL.</li>
+                            <li data-i18n="gam.2">Wrote comprehensive unit and integration tests with the <strong>SimpleTest</strong> framework to ensure gameplay stability under high concurrency.</li>
+                            <li data-i18n="gam.3">Documented technical features and translated business requirements into system functionality.</li>
                         </ul>
                         <div class="tag-row"><span class="tag">PHP</span><span class="tag">PostgreSQL</span><span class="tag">SimpleTest</span><span class="tag">TDD</span></div>
                     </article>
@@ -786,36 +797,45 @@
             'pd.2': 'Intensiven Deutschkurs absolviert und die offiziellen Prüfungen <strong>B1 und B2 (GER)</strong> für berufliche Arbeitsfähigkeit bestanden.',
 
             'r.ax': 'Softwareentwickler',
-            'ax.1': 'Wesentlicher Beitrag zu einem <strong>Voice-AI-Assistenten</strong> für die Deutsche Telekom mit <strong>Rasa</strong> und <strong>Python</strong>, der zu <strong>60% mehr Buchungen</strong> beitrug.',
-            'ax.2': 'Microservices und REST-APIs mit FastAPI gebaut und ML-Module sowie <strong>spaCy</strong>-basiertes NLU in produktive Conversational-AI-Pipelines integriert.',
-            'ax.3': 'Performance mit <strong>Redis-Caching</strong> und asynchroner Verarbeitung verbessert.',
-            'ax.4': 'CI/CD und Infrastruktur mit <strong>Kubernetes</strong>, <strong>Terraform</strong>, <strong>Helm</strong> und GitLab CI/CD aufgesetzt und Junior-Entwickler betreut.',
+            'ax.1': 'Entwurf und Implementierung eines <strong>sprachbasierten KI-Assistenten</strong> mit Python und Rasa für die Deutsche Telekom, der die Terminbuchungen durch fortgeschrittene NLP-Integration um <strong>60%</strong> steigerte.',
+            'ax.2': 'Aufbau von <strong>Kubernetes-Auto-Scaling</strong>-Workflows und robusten CI/CD-Pipelines mit GitLab, Terraform und SonarQube für konsistente Deployments und eine widerstandsfähige Infrastruktur.',
+            'ax.3': 'Leitung des Refactorings eines Legacy-Systems in eine moderne <strong>Microservices-Architektur</strong>, mit besserer Wartbarkeit und effizienteren Deployments.',
+            'ax.4': 'Integration von APIs mehrerer Enterprise-Partner für Interoperabilität in Echtzeit und reibungslosen Datenaustausch zwischen Plattformen.',
 
             'bnd.1': 'Werkstudenten- &amp; Praktikanten-Stellen &middot; Deutschland',
             'bnd.2': 'Festanstellungen in der Industrie &middot; Karachi, Pakistan',
 
             'r.idat': 'Softwareentwickler (Werkstudent)',
-            'idat.1': '<strong>CompareDB</strong>: eine Desktop-Anwendung von Grund auf für die Datenmigration auf Microsoft SQL Server gebaut, die Tabellen und ihre abhängigen Tabellen ohne Primär-/Fremdschlüssel-Beziehungen synchronisiert.',
-            'idat.2': '<strong>Unitechnik Excel-Plugin</strong>: ein VSTO-Excel-Add-in entwickelt, das Tabelleninhalte validiert und ein definiertes Ausgabeformat für ein internes Tool erzeugt.',
+            'idat.1': 'Entwicklung eines sicheren <strong>ETL-Migrationstools</strong> für ERP-Daten, das Staging-Umgebungen für Kundendemos ermöglicht, ohne Live-Systeme zu beeinträchtigen.',
+            'idat.2': 'Entwicklung eines <strong>Excel-Plugins</strong> zur automatischen Datenvalidierung und für AutoCAD-Importe, mit weniger manuellen Fehlern und schnelleren Reporting-Zyklen.',
 
             'r.arago': 'Studentischer Praktikant',
-            'arg.1': 'Am <strong>HIRO Connect Framework</strong> gearbeitet, einer Middleware, die Elemente aus dem Customer-Service-Management zur HIRO-<strong>KI-Engine</strong> und zurück übersetzt (arago ist ein führendes B2B-KI-Unternehmen mit Machine Reasoning).',
-            'arg.2': 'Teststrategie entworfen, Testfälle geschrieben und Testautomatisierung über Oracle RDBMS mit Java SE und JUnit aufgebaut.',
+            'arg.1': 'Mitarbeit an der Backend-Testinfrastruktur für <strong>KI-basierte Middleware</strong>-Systeme.',
+            'arg.2': 'Entwurf und Implementierung robuster <strong>Testautomatisierungs-Frameworks</strong> zur Beschleunigung von Backend-Regressionszyklen.',
 
             'r.asuro': 'Webentwickler (Werkstudent)',
-            'asu.1': '<strong>asuro Versicherungsmanager</strong>: neue Features entwickelt und gestaltet (und Fehler behoben) in einer hybriden mobilen Versicherungs-App, die Nutzern hilft, die besten Angebote großer Versicherer zu finden (Allianz, AXA, Generali, ERGO).',
+            'asu.1': 'Entwicklung und Optimierung von <strong>Backend-API-Integrationen</strong> für eine Versicherungsplattform, mit besserer Datenkonsistenz und Reaktionsfähigkeit.',
 
-            'r.conn': 'Softwareentwickler',
-            'con.1': '<strong>UCloud</strong>: eine Software-defined Cloud auf Basis mehrerer Clouds für skalierbare, sichere, mandantenfähige Automatisierung über Rechenzentren hinweg. Java-RESTful-Webservices, angepasste Liferay-Portlets, das Ext-JS-Frontend und Docker-Monitoring gebaut.',
-            'con.2': '<strong>HRM</strong>: internes System zur Automatisierung von HR-Prozessen (Anwesenheit, Urlaub, Leistung, Reporting) mit Java-REST-Services und Ext-JS-Oberfläche.',
-            'con.3': '<strong>ACT</strong>: eine Java-Desktop-App zum Testen von Cisco-IP-Telefonen in eine moderne Web-Oberfläche migriert.',
+            'r.conn': 'Senior Software Engineer',
+            'ax.5': 'Optimierung der Backend-Performance mit <strong>Redis-Caching</strong> und PostgreSQL-Indexierung, mit <strong>40% kürzeren API-Antwortzeiten</strong>.',
+            'ax.6': 'Mentoring von Junior-Entwicklern und Förderung von Engineering-Qualität durch Code-Reviews, Onboarding und Dokumentation.',
+            'idat.3': 'Schnittstelle zwischen den technischen Teams und CEO/Vertrieb, um Lösungen zu liefern, die Geschäftsziele und technische Machbarkeit in Einklang bringen.',
+            'arg.3': 'Anwendung von <strong>TDD</strong>-Prinzipien und Aufbau von Integrationstests zur Validierung verteilter Komponenten in Echtzeit.',
+            'asu.2': 'Mitarbeit in agilen Sprints, in enger Zusammenarbeit mit Produktdesignern und Entwicklern zur Verbesserung von UI-Performance und Backend-Effizienz.',
+            'con.4': 'Enge Zusammenarbeit mit funktionsübergreifenden Teams, Code-Reviews und Pflege der Dokumentation für skalierbare Software-Lieferung.',
+            'sof.3': 'Enge Abstimmung mit Fachabteilungen zur Definition der Geschäftslogik, Dokumentation der Änderungen und Schulung der Endanwender.',
+            'gam.2': 'Umfassende Unit- und Integrationstests mit dem <strong>SimpleTest</strong>-Framework für stabile Spielabläufe unter hoher Parallelität.',
+            'gam.3': 'Dokumentation technischer Features und Übersetzung von Geschäftsanforderungen in Systemfunktionalität.',
+            'con.1': 'Entwurf und Entwicklung von <strong>RESTful Microservices</strong> mit Java und Docker für die <strong>UCloud</strong>-Plattform, eine softwaredefinierte Cloud für skalierbare, sichere Ressourcen-Orchestrierung über mehrere Rechenzentren.',
+            'con.2': 'Aufbau und Anpassung von Enterprise-<strong>HRM-Modulen</strong> für Anwesenheit, Urlaub und Leistungsbewertung auf Basis von Webtechnologien und REST-APIs.',
+            'con.3': 'Modernisierung eines Desktop-QA-Tools für <strong>Cisco-IP-Telefone</strong> durch Migration auf eine responsive Web-Oberfläche mit AngularJS und Bootstrap.',
 
             'r.sof': 'Junior-Softwareentwickler',
-            'sof.1': '<strong>SmartHCM</strong>: ein webbasiertes, anpassbares Human-Capital-Management-System; Reports mit Crystal Reports und PL/SQL entwickelt und Fehler behoben.',
-            'sof.2': '<strong>SmartERP</strong>: das Open-Source-ERP FrontAccounting an Kundenbedürfnisse angepasst, PHP-Reports gebaut und den Kunden geschult.',
+            'sof.1': 'Wartung und Weiterentwicklung von <strong>SmartHCM</strong> mit Fokus auf Backend-Query-Optimierung und individuellem Reporting mit PL/SQL und Crystal Reports.',
+            'sof.2': 'Anpassung des Open-Source-ERP <strong>FrontAccounting</strong>, mit Erweiterung der Finanz- und Reporting-Module für regionale Buchhaltungsprozesse und Kundenanforderungen.',
 
             'r.game': 'Softwareentwickler',
-            'gam.1': '<strong>Howzat Cricket Game</strong>: ein browserbasiertes Social-Cricket-Spiel auf Facebook, ESPN und IBIBO mit Einzelspieler-, Freundschafts- und Mehrspieler-Modus. Unit-Tests geplant und geschrieben (TDD) sowie Anforderungen und technische Dokumentation betreut.',
+            'gam.1': 'Entwicklung und Wartung von Backend-Modulen für Spieler-Analytik und Spiellogik von <a href="https://howzat.com" target="_blank" rel="noopener"><strong>Howzat</strong></a>, einem sozialen Echtzeit-Cricketspiel auf Facebook und ESPN, mit PHP und PostgreSQL.',
 
             'p.k': 'Ausgewählte Arbeiten', 'p.h': 'Projekte',
             'p.p': 'Systeme, die ich entworfen und ausgeliefert habe, von Agenten bis zu Cloud-Plattformen.',
