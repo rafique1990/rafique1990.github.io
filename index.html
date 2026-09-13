@@ -839,6 +839,8 @@
         function setLang(lang) {
             curLang = (lang === 'de') ? 'de' : 'en';
             document.documentElement.lang = curLang;
+            var cvFile = (curLang === 'de') ? 'assets/RafiqueNazir-CV-DE.pdf' : 'assets/RafiqueNazir-CV.pdf';
+            document.querySelectorAll('a[href$="RafiqueNazir-CV.pdf"], a[href$="RafiqueNazir-CV-DE.pdf"]').forEach(function (a) { a.href = cvFile; });
             i18nEls.forEach(el => {
                 const key = el.dataset.i18n;
                 el.innerHTML = (curLang === 'de' && I18N_DE[key] != null) ? I18N_DE[key] : enStore[key];
