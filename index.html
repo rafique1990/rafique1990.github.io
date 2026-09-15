@@ -204,6 +204,18 @@
         .cert a:hover{text-decoration:underline;}
         .proj-body p a,.xp-card li a{color:var(--clay);text-decoration:underline;text-underline-offset:2px;font-weight:600;}
         .proj-body p a:hover,.xp-card li a:hover{color:var(--clay-ink);}
+        /* EDUCATION */
+        .edu-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.3rem;}
+        .edu-card{display:flex;gap:1.1rem;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:1.7rem 1.8rem;transition:transform .25s var(--ease),box-shadow .25s var(--ease),border-color .25s var(--ease);}
+        .edu-card:hover{transform:translateY(-3px);box-shadow:var(--sh-2);border-color:#cec8b8;}
+        .edu-card .ico{width:48px;height:48px;border-radius:var(--r-md);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;}
+        .edu-card .ico .material-symbols-outlined{font-size:1.45rem;vertical-align:0;color:inherit;}
+        .edu-card h3{font-family:var(--serif);font-size:1.26rem;font-weight:500;margin-bottom:0.35rem;}
+        .edu-uni{font-size:0.96rem;margin-bottom:0.3rem;}
+        .edu-uni a{color:var(--clay);text-decoration:none;font-weight:600;border-bottom:1px solid var(--line);padding-bottom:1px;transition:border-color .15s;}
+        .edu-uni a:hover{border-color:var(--clay);}
+        .edu-meta{font-family:var(--mono);font-size:0.82rem;color:var(--ink-3);}
+        @media (max-width:920px){.edu-grid{grid-template-columns:1fr;}}
 
         /* CONTACT (warm dark close) */
         .contact-card{position:relative;overflow:hidden;border-radius:var(--r-xl);background:#1B1A17;color:var(--paper);padding:3.2rem 2.8rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1.6rem;border:1px solid #26241f;}
@@ -254,6 +266,7 @@
                     <li><a href="#skills" data-i18n="n.sk">Skills</a></li>
                     <li><a href="#experience" data-i18n="n.xp">Experience</a></li>
                     <li><a href="#projects" data-i18n="n.pr">Projects</a></li>
+                    <li><a href="#education" data-i18n="n.ed">Education</a></li>
                     <li><a href="#certifications" data-i18n="n.cr">Credentials</a></li>
                         <li><a href="assets/RafiqueNazir-CV.pdf" target="_blank" rel="noopener" data-i18n="n.rs">Resume</a></li>
                     <li><a href="#contact" class="nav-cta" data-i18n="n.ct">Contact</a></li>
@@ -629,6 +642,32 @@
             </div>
         </section>
 
+        <!-- EDUCATION -->
+        <section id="education" class="section">
+            <div class="sec-head reveal">
+                <div class="kicker"><span class="bar"></span><span data-i18n="e.k">Academic background</span></div>
+                <h2 data-i18n="e.h">Education</h2>
+            </div>
+            <div class="edu-grid">
+                <article class="edu-card reveal">
+                    <div class="ico bg-violet"><span class="material-symbols-outlined">school</span></div>
+                    <div>
+                        <h3>M.Sc. Distributed Software Systems</h3>
+                        <p class="edu-uni"><a href="https://www.tu-darmstadt.de/" target="_blank" rel="noopener">Technische Universit&auml;t Darmstadt</a></p>
+                        <p class="edu-meta" data-i18n="e1.m">Darmstadt, Germany &middot; 2015 &ndash; 2019</p>
+                    </div>
+                </article>
+                <article class="edu-card reveal">
+                    <div class="ico bg-coral"><span class="material-symbols-outlined">school</span></div>
+                    <div>
+                        <h3>B.Sc. Computer Science</h3>
+                        <p class="edu-uni"><a href="https://khi.nu.edu.pk/" target="_blank" rel="noopener">National University of Computer &amp; Emerging Sciences (FAST NUCES)</a></p>
+                        <p class="edu-meta" data-i18n="e2.m">Karachi, Pakistan &middot; 2007 &ndash; 2011 &middot; NICT Scholarship awardee</p>
+                    </div>
+                </article>
+            </div>
+        </section>
+
         <!-- CERTIFICATIONS -->
         <section id="certifications" class="section">
             <div class="sec-head reveal">
@@ -739,6 +778,10 @@
     <script>
         /* ---------- German translations ---------- */
         const I18N_DE = {
+            'n.ed': 'Ausbildung',
+            'e.k': 'Akademischer Hintergrund', 'e.h': 'Ausbildung',
+            'e1.m': 'Darmstadt, Deutschland &middot; 2015 &ndash; 2019',
+            'e2.m': 'Karachi, Pakistan &middot; 2007 &ndash; 2011 &middot; NICT-Stipendiat',
             'n.sk': 'Fähigkeiten', 'n.xp': 'Erfahrung', 'n.pr': 'Projekte', 'n.cr': 'Qualifikationen', 'n.rs': 'Lebenslauf', 'n.ct': 'Kontakt',
 
             'h.eb': 'Verfügbar für AI-Engineer-Stellen',
