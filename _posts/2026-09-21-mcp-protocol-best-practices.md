@@ -35,6 +35,14 @@ processes, or HTTP/SSE for remote servers. Here is the flow of a single tool cal
 from the model's intent down to the data source and back:
 
 ```mermaid
+---
+config:
+  look: handDrawn
+  theme: base
+  themeVariables:
+    fontFamily: '"Kalam", cursive'
+    fontSize: "17px"
+---
 flowchart LR
     subgraph Host["LLM Application (Host)"]
         direction TB
