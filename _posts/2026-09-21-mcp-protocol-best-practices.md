@@ -41,46 +41,29 @@ config:
   theme: base
   themeVariables:
     fontFamily: '"Kalam", cursive'
-    fontSize: "17px"
+    fontSize: "18px"
 ---
-flowchart LR
-    subgraph Host["LLM Application (Host)"]
-        direction TB
-        LLM["LLM / Agent Loop"]
-        Client["MCP Client"]
-    end
-    subgraph Server["MCP Server"]
-        direction TB
-        Router["JSON-RPC Router"]
-        Tools["Tools"]
-        Res["Resources"]
-    end
-    DB[("Data source")]
+flowchart TB
+    LLM["LLM / Agent Loop"]:::blue
+    Client["MCP Client"]:::green
+    Router["JSON-RPC Router"]:::amber
+    Tools["Tools"]:::violet
+    Res["Resources"]:::red
+    DB[("Data source")]:::teal
 
-    LLM -->|"1 intent"| Client
-    Client -->|"2 tools/call"| Router
-    Router -->|"3 dispatch"| Tools
-    Tools -->|"4 read"| Res
-    Res -->|"5 query"| DB
-    Router -->|"6 result"| Client
-    Client -->|"7 output"| LLM
+    LLM -->|"1. intent"| Client
+    Client -->|"2. tools/call"| Router
+    Router -->|"3. dispatch"| Tools
+    Tools -->|"4. read"| Res
+    Res -->|"5. query"| DB
+    DB -.->|"result flows back up"| LLM
 
-    classDef blue   fill:#2563EB,stroke:#1E3A8A,stroke-width:1.5px,color:#ffffff;
-    classDef green  fill:#059669,stroke:#065F46,stroke-width:1.5px,color:#ffffff;
-    classDef amber  fill:#D97706,stroke:#92400E,stroke-width:1.5px,color:#ffffff;
-    classDef violet fill:#7C3AED,stroke:#5B21B6,stroke-width:1.5px,color:#ffffff;
-    classDef red    fill:#DC2626,stroke:#991B1B,stroke-width:1.5px,color:#ffffff;
-    classDef teal   fill:#0891B2,stroke:#155E75,stroke-width:1.5px,color:#ffffff;
-
-    class LLM blue
-    class Client green
-    class Router amber
-    class Tools violet
-    class Res red
-    class DB teal
-
-    style Host fill:#EFF6FF,stroke:#93C5FD,color:#1E3A8A
-    style Server fill:#FFFBEB,stroke:#FCD34D,color:#92400E
+    classDef blue fill:#DBEAFE,stroke:#2563EB,stroke-width:2px,color:#1E3A8A;
+    classDef green fill:#D1FAE5,stroke:#059669,stroke-width:2px,color:#065F46;
+    classDef amber fill:#FEF3C7,stroke:#B45309,stroke-width:2px,color:#7C2D12;
+    classDef violet fill:#EDE9FE,stroke:#7C3AED,stroke-width:2px,color:#5B21B6;
+    classDef red fill:#FEE2E2,stroke:#DC2626,stroke-width:2px,color:#991B1B;
+    classDef teal fill:#CCFBF1,stroke:#0891B2,stroke-width:2px,color:#155E75;
 ```
 
 When it starts, the client calls `tools/list` to see what the server offers, then
