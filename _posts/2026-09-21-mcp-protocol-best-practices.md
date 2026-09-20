@@ -31,7 +31,8 @@ IDs, or transport details.
 ### Communication flow
 
 Clients and servers talk over **JSON-RPC 2.0**. The transport is stdio for local
-processes, or HTTP/SSE for remote servers. A typical exchange looks like this:
+processes, or HTTP/SSE for remote servers. Here is the flow of a single tool call,
+from the model's intent down to the data source and back:
 
 ```mermaid
 flowchart LR
@@ -44,12 +45,24 @@ flowchart LR
         Tools["Tools"]
         Res["Resources"]
     end
+    DB[("Data source")]
+
     LLM -->|"1. intent"| Client
-    Client -->|"2. tools/list, tools/call"| Router
+    Client -->|"2. tools/call"| Router
     Router -->|"3. dispatch"| Tools
-    Tools -->|"4. fetch"| Res
-    Router -->|"5. structured result"| Client
-    Client -->|"6. tool output"| LLM
+    Tools -->|"4. read"| Res
+    Res -->|"5. query"| DB
+    Router -->|"6. structured result"| Client
+    Client -->|"7. tool output"| LLM
+
+    style Host fill:#eef4ff,stroke:#3B5BDB,color:#0b1f4d
+    style Server fill:#fff6e6,stroke:#B0791F,color:#5a3d05
+    style LLM fill:#3B5BDB,color:#ffffff,stroke:#26307a
+    style Client fill:#1E7E44,color:#ffffff,stroke:#155c31
+    style Router fill:#B0791F,color:#ffffff,stroke:#7d560f
+    style Tools fill:#7C3AED,color:#ffffff,stroke:#5a25b0
+    style Res fill:#C4562F,color:#ffffff,stroke:#8f3c1f
+    style DB fill:#0E8A90,color:#ffffff,stroke:#0a666b
 ```
 
 When it starts, the client calls `tools/list` to see what the server offers, then
@@ -59,17 +72,23 @@ add or change what a server does without redeploying the host.
 ## Building a server with FastMCP
 
 [FastMCP](https://github.com/jlowin/fastmcp) is a simple way to write MCP servers
-in Python. You decorate plain functions, and it handles the protocol for you. The
-part that matters most in production is error handling. A tool should never send a
-stack trace or an unhandled exception back to the model, because the model will
-repeat it to the user word for word.
+in Python. You decorate plain functions, and it handles the protocol for you.
+
+First, create the server. That is all the setup you need:
 
 ```python
 from fastmcp import FastMCP
 import httpx
 
 mcp = FastMCP("index-tools")
+```
 
+Next comes the tool itself. The part that matters most in production is error
+handling. A tool should never send a stack trace or an unhandled exception back to
+the model, because the model will repeat it to the user word for word. So every
+path returns a plain dict:
+
+```python
 @mcp.tool()
 async def get_constituents(index_id: str) -> dict:
     """Return the current constituents of a published index.
@@ -87,17 +106,17 @@ async def get_constituents(index_id: str) -> dict:
             )
             resp.raise_for_status()
             return {"index_id": index_id, "constituents": resp.json()}
-
     except httpx.TimeoutException:
         return {"error": "timeout", "detail": "index service did not respond in time"}
     except httpx.HTTPStatusError as exc:
-        # Map the upstream status to a clean, model-safe message
         return {"error": "upstream_error", "status": exc.response.status_code}
     except Exception:
-        # Never surface internals. Log the real cause on the server instead.
         return {"error": "internal_error", "detail": "could not retrieve constituents"}
+```
 
+Finally, run the server:
 
+```python
 if __name__ == "__main__":
     mcp.run()
 ```
