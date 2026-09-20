@@ -7,27 +7,29 @@ tags: [Introduction, Meta]
 ---
 
 Welcome, and thanks for stopping by. This is where I write about the things I
-build and think about as an **AI Engineer** — mostly production LLM systems,
-agentic architectures, and the cloud infrastructure that keeps them honest.
+build and think about as an **AI Engineer**. Most of it is about production LLM
+systems, agent architectures, and the cloud infrastructure that keeps them
+running.
 
 ## What I plan to write about
 
-I want this space to be practical rather than promotional. Expect posts on:
+I want this to be useful, not promotional. Here is the kind of thing you can
+expect:
 
-- **Software engineering** — backend design, APIs, testing, and the unglamorous
-  work that makes systems reliable.
-- **AI systems** — LLM orchestration, the Model Context Protocol (MCP),
-  retrieval, evaluation, and guardrails, drawn from real production work.
-- **Project updates** — short notes on what I'm currently building and what I
-  learned the hard way.
+- **Software engineering**: backend design, APIs, testing, and the everyday work
+  that keeps systems reliable.
+- **AI systems**: LLM orchestration, the Model Context Protocol (MCP), retrieval,
+  evaluation, and guardrails, based on real production work.
+- **Project updates**: short notes on what I am building and what I learned along
+  the way.
 
-My bias is toward writing that a working engineer can actually use: concrete
+I try to write things a working engineer can actually use. That means concrete
 examples, honest trade-offs, and code you can run.
 
 ## A small demo
 
-Since this blog is freshly set up, here is a tiny bit of CSS I like for making
-cards feel alive — a **fade-in on hover** built from a keyframe animation:
+Since the blog is new, here is a small piece of CSS I like. It fades a card in
+when you hover over it, using a keyframe animation:
 
 ```css
 @keyframes fadeIn {
@@ -46,9 +48,9 @@ cards feel alive — a **fade-in on hover** built from a keyframe animation:
 }
 ```
 
-The `both` fill mode keeps the element at its final state after the animation
-finishes, so the card doesn't snap back while you're still hovering. Small
-detail, but it's the kind of polish that separates a prototype from a product.
+The `both` fill mode keeps the card at its final state while you hover, so it
+does not snap back. It is a small thing, but small things like this are what make
+an interface feel finished.
 
-More soon — including a deep dive into the Model Context Protocol and how I use
-it in production.
+More soon, including a longer post on the Model Context Protocol and how I use it
+in production.

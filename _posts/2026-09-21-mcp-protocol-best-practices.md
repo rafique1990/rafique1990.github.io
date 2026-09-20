@@ -7,31 +7,31 @@ tags: [MCP, Python, Architecture, LLM]
 ---
 
 The **Model Context Protocol (MCP)** is an open standard for connecting LLM
-applications to tools, data, and prompts through a uniform interface. Instead of
-hardcoding every integration into your agent, you expose capabilities behind a
-protocol the model can discover and call at runtime. This post covers how MCP is
-structured and the practices that keep it reliable in production.
+applications to tools, data, and prompts through one interface. Instead of
+hardcoding every integration into your agent, you put capabilities behind a
+protocol that the model can discover and call at runtime. This post explains how
+MCP is put together, and the practices that keep it reliable in production.
 
 ## The architecture
 
-MCP separates the world into a **Host**, one or more **Clients**, and one or more
-**Servers**. The host is the LLM application; each client manages a single
-connection to a server; each server exposes capabilities. Those capabilities come
-in three kinds:
+MCP splits the world into a **Host**, one or more **Clients**, and one or more
+**Servers**. The host is the LLM application. Each client manages a single
+connection to a server. Each server exposes capabilities, and those come in three
+kinds:
 
-- **Tools** — functions the model can invoke (e.g. "get index constituents").
-- **Prompts** — reusable, parameterised prompt templates.
-- **Resources** — read-only data the host can pull into context (files, records,
-  documents).
+- **Tools**: functions the model can call, for example "get index constituents".
+- **Prompts**: reusable prompt templates with parameters.
+- **Resources**: read-only data the host can pull into context, such as files or
+  records.
 
-The key idea is **separation of concerns**: the host decides *what* it wants; the
-server owns *how* it is fetched or executed. The model never sees credentials,
-internal IDs, or transport details.
+The point is to keep responsibilities apart. The host decides what it wants. The
+server owns how it is fetched or run. The model never sees credentials, internal
+IDs, or transport details.
 
 ### Communication flow
 
-Clients and servers speak **JSON-RPC 2.0** over a transport (stdio for local
-processes, or HTTP/SSE for remote servers). A typical exchange looks like this:
+Clients and servers talk over **JSON-RPC 2.0**. The transport is stdio for local
+processes, or HTTP/SSE for remote servers. A typical exchange looks like this:
 
 ```mermaid
 flowchart LR
@@ -45,24 +45,24 @@ flowchart LR
         Res["Resources"]
     end
     LLM -->|"1. intent"| Client
-    Client -->|"2. tools/list, tools/call (JSON-RPC)"| Router
+    Client -->|"2. tools/list, tools/call"| Router
     Router -->|"3. dispatch"| Tools
     Tools -->|"4. fetch"| Res
     Router -->|"5. structured result"| Client
     Client -->|"6. tool output"| LLM
 ```
 
-At startup the client calls `tools/list` to discover what the server offers, then
-`tools/call` to invoke a specific tool. Because discovery happens at runtime, you
-can add or change server capabilities without redeploying the host.
+When it starts, the client calls `tools/list` to see what the server offers, then
+`tools/call` to run a specific tool. Because discovery happens at runtime, you can
+add or change what a server does without redeploying the host.
 
 ## Building a server with FastMCP
 
-[FastMCP](https://github.com/jlowin/fastmcp) is the ergonomic Python way to write
-MCP servers — you decorate plain functions and it handles the protocol. The part
-that matters in production is **error handling**: a tool must never leak a stack
-trace or an unhandled exception back into the model's context, because the model
-will faithfully repeat it to the user.
+[FastMCP](https://github.com/jlowin/fastmcp) is a simple way to write MCP servers
+in Python. You decorate plain functions, and it handles the protocol for you. The
+part that matters most in production is error handling. A tool should never send a
+stack trace or an unhandled exception back to the model, because the model will
+repeat it to the user word for word.
 
 ```python
 from fastmcp import FastMCP
@@ -91,10 +91,10 @@ async def get_constituents(index_id: str) -> dict:
     except httpx.TimeoutException:
         return {"error": "timeout", "detail": "index service did not respond in time"}
     except httpx.HTTPStatusError as exc:
-        # Map upstream status to a clean, model-safe message
+        # Map the upstream status to a clean, model-safe message
         return {"error": "upstream_error", "status": exc.response.status_code}
     except Exception:
-        # Never surface internals; log the real cause server-side
+        # Never surface internals. Log the real cause on the server instead.
         return {"error": "internal_error", "detail": "could not retrieve constituents"}
 
 
@@ -102,43 +102,43 @@ if __name__ == "__main__":
     mcp.run()
 ```
 
-Notice the tool always returns a **structured dict**, success or failure. The
-model can branch on `error` and respond gracefully instead of hallucinating.
+The tool always returns a structured dict, whether it succeeds or fails. That way
+the model can check the `error` field and respond calmly instead of guessing.
 
 ## Production best practices
 
 ### Context window management
 
-- **Return the minimum useful payload.** Tools should project and paginate, not
-  dump. A 4,000-row response will blow the context window and the budget.
-- **Summarise resources before injection.** For large documents, expose a
-  summarised resource and let the host request detail on demand.
-- **Prefer references over blobs.** Return an ID the model can pass to a follow-up
-  tool rather than inlining a megabyte of JSON.
+- Return only what is useful. Tools should select and paginate, not dump
+  everything. A 4,000-row response will fill the context window and the budget.
+- Summarise large resources before you inject them. Expose a short summary, and
+  let the host ask for detail when it needs it.
+- Prefer references over large blobs. Return an ID the model can pass to a
+  follow-up call, instead of inlining a lot of JSON.
 
 ### Tool safety
 
-- **Validate every input** at the tool boundary; treat model-supplied arguments
-  as untrusted user input.
-- **Apply-then-disclose for mutations.** Use documented defaults, make the effect
-  explicit in the result, and keep destructive actions behind an allowlist.
-- **Make tools idempotent** where possible, so a retried call does no harm.
-- **Fail closed.** On ambiguity, return an error the model can act on rather than
-  guessing.
+- Validate every input at the tool boundary. Treat arguments from the model as
+  untrusted user input.
+- Apply first, then explain. Use documented defaults, state the effect in the
+  result, and keep destructive actions behind an allowlist.
+- Make tools idempotent where you can, so a repeated call does no harm.
+- Fail closed. When something is unclear, return an error the model can act on
+  instead of guessing.
 
 ### Observability
 
-- **Trace every tool call** with something like Langfuse or OpenTelemetry —
-  arguments, latency, and the real wire payload, not the model's paraphrase.
-- **Score tool selection** with an LLM-as-a-Judge pass so you can measure whether
-  the agent is calling the *right* tool, not just a tool.
-- **Track cost per conversation** by model, so a regression in tool-calling
-  behaviour shows up as a number, not a surprise invoice.
+- Trace every tool call with something like Langfuse or OpenTelemetry. Record the
+  arguments, the latency, and the real payload, not the model's summary of it.
+- Score tool choice with an LLM-as-a-Judge step, so you can measure whether the
+  agent picks the right tool, not just any tool.
+- Track cost per conversation, by model. A change in tool-calling behaviour then
+  shows up as a number, instead of a surprise bill.
 
-> The protocol gives you a clean seam between the model and your systems. Most of
-> the reliability work happens *at that seam* — validation, structured errors, and
-> tracing — not inside the model.
+> The protocol gives you a clean line between the model and your systems. Most of
+> the reliability work happens on that line: validation, structured errors, and
+> tracing. Not inside the model.
 
-MCP won't make a fragile system robust on its own, but it gives you the right
-place to put the robustness. Get the boundary right and the rest of the agent
-gets a lot simpler.
+MCP will not make a fragile system solid on its own. What it gives you is a good
+place to put the reliability. Get the boundary right, and the rest of the agent
+gets much simpler.
