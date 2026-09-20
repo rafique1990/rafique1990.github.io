@@ -109,6 +109,10 @@
     <!-- Mermaid.js: render fenced mermaid blocks as coloured SVG diagrams -->
     <script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+        // AWS / cloud service logos for architecture-beta diagrams (iconify "logos" pack)
+        mermaid.registerIconPacks([
+            { name: 'logos', loader: () => fetch('https://unpkg.com/@iconify-json/logos@1/icons.json').then(function (r) { return r.json(); }) }
+        ]);
         document.querySelectorAll('.language-mermaid').forEach(function (block) {
             var div = document.createElement('div');
             div.className = 'mermaid';
