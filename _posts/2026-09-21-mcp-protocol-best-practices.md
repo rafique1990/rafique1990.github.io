@@ -37,32 +37,42 @@ from the model's intent down to the data source and back:
 ```mermaid
 flowchart LR
     subgraph Host["LLM Application (Host)"]
+        direction TB
         LLM["LLM / Agent Loop"]
         Client["MCP Client"]
     end
     subgraph Server["MCP Server"]
+        direction TB
         Router["JSON-RPC Router"]
         Tools["Tools"]
         Res["Resources"]
     end
     DB[("Data source")]
 
-    LLM -->|"1. intent"| Client
-    Client -->|"2. tools/call"| Router
-    Router -->|"3. dispatch"| Tools
-    Tools -->|"4. read"| Res
-    Res -->|"5. query"| DB
-    Router -->|"6. structured result"| Client
-    Client -->|"7. tool output"| LLM
+    LLM -->|"1 intent"| Client
+    Client -->|"2 tools/call"| Router
+    Router -->|"3 dispatch"| Tools
+    Tools -->|"4 read"| Res
+    Res -->|"5 query"| DB
+    Router -->|"6 result"| Client
+    Client -->|"7 output"| LLM
 
-    style Host fill:#eef4ff,stroke:#3B5BDB,color:#0b1f4d
-    style Server fill:#fff6e6,stroke:#B0791F,color:#5a3d05
-    style LLM fill:#3B5BDB,color:#ffffff,stroke:#26307a
-    style Client fill:#1E7E44,color:#ffffff,stroke:#155c31
-    style Router fill:#B0791F,color:#ffffff,stroke:#7d560f
-    style Tools fill:#7C3AED,color:#ffffff,stroke:#5a25b0
-    style Res fill:#C4562F,color:#ffffff,stroke:#8f3c1f
-    style DB fill:#0E8A90,color:#ffffff,stroke:#0a666b
+    classDef blue   fill:#2563EB,stroke:#1E3A8A,stroke-width:1.5px,color:#ffffff;
+    classDef green  fill:#059669,stroke:#065F46,stroke-width:1.5px,color:#ffffff;
+    classDef amber  fill:#D97706,stroke:#92400E,stroke-width:1.5px,color:#ffffff;
+    classDef violet fill:#7C3AED,stroke:#5B21B6,stroke-width:1.5px,color:#ffffff;
+    classDef red    fill:#DC2626,stroke:#991B1B,stroke-width:1.5px,color:#ffffff;
+    classDef teal   fill:#0891B2,stroke:#155E75,stroke-width:1.5px,color:#ffffff;
+
+    class LLM blue
+    class Client green
+    class Router amber
+    class Tools violet
+    class Res red
+    class DB teal
+
+    style Host fill:#EFF6FF,stroke:#93C5FD,color:#1E3A8A
+    style Server fill:#FFFBEB,stroke:#FCD34D,color:#92400E
 ```
 
 When it starts, the client calls `tools/list` to see what the server offers, then

@@ -118,9 +118,10 @@
         try {
             mermaid.initialize({
                 startOnLoad: false,
-                theme: 'default',
+                theme: 'base',
                 securityLevel: 'loose',
-                flowchart: { curve: 'basis', htmlLabels: true, useMaxWidth: true }
+                themeVariables: { fontSize: '15px', fontFamily: 'Inter, system-ui, sans-serif' },
+                flowchart: { curve: 'basis', htmlLabels: false, useMaxWidth: true, padding: 14 }
             });
             await mermaid.run({ querySelector: '.mermaid' });
         } catch (err) {
