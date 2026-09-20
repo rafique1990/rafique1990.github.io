@@ -1,0 +1,11 @@
+title: "Rafique Nazir"
+description: "AI Engineer — notes on LLM systems, agents, and cloud architecture."
+url: "https://rafiquenazir.de"
+
+# The hand-built LUMEN portfolio (index.html) has no front matter, so Jekyll
+# copies it through unchanged. Blog posts use the custom _layouts below.
+permalink: /blog/:title/
+
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge

@@ -1,0 +1,21 @@
+---
+layout: default
+title: Blog
+permalink: /blog/
+description: "Notes on LLM systems, agents, MCP, and cloud architecture by Rafique Nazir."
+---
+<header class="post-head">
+    <span class="kicker">Writing</span>
+    <h1>Blog</h1>
+    <div class="post-meta">Notes on LLM systems, agents, and cloud architecture.</div>
+</header>
+
+<ul class="post-list">
+    {% for post in site.posts %}
+    <li>
+        <a class="title" href="{{ post.url }}">{{ post.title }}</a>
+        <div class="post-meta">{{ post.date | date: "%B %-d, %Y" }} · {{ post.categories | join: " · " }}</div>
+        <p class="excerpt">{{ post.excerpt | strip_html | truncate: 180 }}</p>
+    </li>
+    {% endfor %}
+</ul>
