@@ -6,6 +6,9 @@ url: "https://rafiquenazir.de"
 # copies it through unchanged. Blog posts use the custom _layouts below.
 permalink: /blog/:title/
 
+# Build posts even if their date is ahead of the build clock (dated 2026-09-21).
+future: true
+
 kramdown:
   input: GFM
   syntax_highlighter: rouge
