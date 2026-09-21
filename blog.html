@@ -11,55 +11,100 @@ description: "Notes on LLM systems, agents, MCP, and cloud architecture by Rafiq
 </header>
 
 <div class="blog-toolbar">
-    <input type="search" id="blogSearch" placeholder="Search posts by keyword, tag, or title..." aria-label="Search posts">
+    <input type="search" id="search-input" placeholder="Search posts by keyword, tag, or title..." aria-label="Search posts">
 </div>
 
-<ul class="post-list" id="postList">
+<!-- Simple-Jekyll-Search renders matches here while typing -->
+<div class="post-cards" id="search-results" hidden></div>
+
+<!-- Default card feed (client-side paginated, 5 per page) -->
+<div class="post-cards" id="postList">
     {% for post in site.posts %}
-    <li class="post-item" data-search="{{ post.title | downcase | escape }} {{ post.tags | join: ' ' | downcase }} {{ post.categories | join: ' ' | downcase }} {{ post.excerpt | strip_html | downcase | escape }}">
-        <a class="title" href="{{ post.url }}">{{ post.title }}</a>
-        <div class="post-meta">{{ post.date | date: "%B %-d, %Y" }} · {{ post.categories | join: " · " }}</div>
-        <p class="excerpt">{{ post.excerpt | strip_html | truncate: 180 }}</p>
-        <div class="tags">{% for t in post.tags %}<span class="tag">{{ t }}</span>{% endfor %}</div>
-    </li>
+    <a class="pcard" href="{{ post.url }}">
+        {% if post.thumbnail %}
+        <div class="pcard-thumb" style="background-image:url('{{ post.thumbnail }}')"></div>
+        {% else %}
+        <div class="pcard-thumb pcard-fallback">
+            <span class="pcard-cat">{{ post.categories | first }}</span>
+            <span class="pcard-tag">{{ post.tags | first }}</span>
+        </div>
+        {% endif %}
+        <div class="pcard-body">
+            <h3>{{ post.title }}</h3>
+            <div class="post-meta">{{ post.date | date: "%B %-d, %Y" }} · {{ post.categories | join: " · " }}</div>
+            <p class="excerpt">{{ post.excerpt | strip_html | truncate: 160 }}</p>
+            <div class="tags">{% for t in post.tags %}<span class="tag">{{ t }}</span>{% endfor %}</div>
+        </div>
+    </a>
     {% endfor %}
-</ul>
-<p id="noResults" class="post-meta" style="display:none;">No posts match your search.</p>
+</div>
+<p id="noResults" class="post-meta" hidden>No posts match your search.</p>
 <nav class="pager" id="pager" aria-label="Blog pagination"></nav>
 
+<script src="https://unpkg.com/simple-jekyll-search@1.10.0/dest/simple-jekyll-search.min.js"></script>
 <script>
+    /* Fast client-side keyword search over /search.json */
+    var searchTpl =
+        '<a class="pcard" href="{url}">' +
+        '<div class="pcard-thumb pcard-fallback"><span class="pcard-cat">{categories}</span></div>' +
+        '<div class="pcard-body"><h3>{title}</h3>' +
+        '<div class="post-meta">{date}</div>' +
+        '<p class="excerpt">{excerpt}</p></div></a>';
+    if (window.SimpleJekyllSearch) {
+        SimpleJekyllSearch({
+            searchInput: document.getElementById('search-input'),
+            resultsContainer: document.getElementById('search-results'),
+            json: '/search.json',
+            searchResultTemplate: searchTpl,
+            noResultsText: ''
+        });
+    }
+
+    /* Toggle: default paginated feed vs live search results */
+    var input = document.getElementById('search-input');
+    var list = document.getElementById('postList');
+    var results = document.getElementById('search-results');
+    var pager = document.getElementById('pager');
+    var noRes = document.getElementById('noResults');
+    input.addEventListener('input', function () {
+        var searching = input.value.trim().length > 0;
+        list.hidden = searching;
+        pager.style.display = searching ? 'none' : '';
+        results.hidden = !searching;
+        if (searching) { setTimeout(function () { noRes.hidden = results.children.length > 0; }, 60); }
+        else { noRes.hidden = true; }
+    });
+
+    /* Pagination of the default feed: 5 per page, Newer / Older + numbers */
     (function () {
         var PAGE_SIZE = 5;
-        var list = document.getElementById('postList');
-        var items = Array.prototype.slice.call(list.querySelectorAll('.post-item'));
-        var search = document.getElementById('blogSearch');
-        var pager = document.getElementById('pager');
-        var noResults = document.getElementById('noResults');
-        var page = 1, filtered = items;
-
+        var cards = Array.prototype.slice.call(list.querySelectorAll('.pcard'));
+        var page = 1;
         function render() {
-            var pages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+            var pages = Math.max(1, Math.ceil(cards.length / PAGE_SIZE));
             if (page > pages) page = pages;
-            items.forEach(function (el) { el.style.display = 'none'; });
-            filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE).forEach(function (el) { el.style.display = ''; });
-            noResults.style.display = filtered.length ? 'none' : '';
+            cards.forEach(function (c) { c.style.display = 'none'; });
+            cards.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE).forEach(function (c) { c.style.display = ''; });
             pager.innerHTML = '';
             if (pages > 1) {
+                var prev = document.createElement('button');
+                prev.className = 'page-btn'; prev.textContent = '« Newer'; prev.disabled = page === 1;
+                prev.onclick = function () { if (page > 1) { page--; render(); window.scrollTo({ top: 0, behavior: 'smooth' }); } };
+                pager.appendChild(prev);
                 for (var i = 1; i <= pages; i++) {
-                    var b = document.createElement('button');
-                    b.textContent = i;
-                    b.className = 'page-btn' + (i === page ? ' active' : '');
-                    (function (n) { b.onclick = function () { page = n; render(); window.scrollTo({ top: 0, behavior: 'smooth' }); }; })(i);
-                    pager.appendChild(b);
+                    (function (n) {
+                        var b = document.createElement('button');
+                        b.className = 'page-btn' + (n === page ? ' active' : ''); b.textContent = n;
+                        b.onclick = function () { page = n; render(); window.scrollTo({ top: 0, behavior: 'smooth' }); };
+                        pager.appendChild(b);
+                    })(i);
                 }
+                var next = document.createElement('button');
+                next.className = 'page-btn'; next.textContent = 'Older »'; next.disabled = page === pages;
+                next.onclick = function () { if (page < pages) { page++; render(); window.scrollTo({ top: 0, behavior: 'smooth' }); } };
+                pager.appendChild(next);
             }
         }
-        search.addEventListener('input', function () {
-            var q = search.value.trim().toLowerCase();
-            filtered = q ? items.filter(function (el) { return el.getAttribute('data-search').indexOf(q) !== -1; }) : items;
-            page = 1;
-            render();
-        });
         render();
     })();
 </script>

@@ -24,13 +24,69 @@ layout: default
     <section class="comments">
         <h2>Comments</h2>
         <p class="note">Sign in with GitHub to leave a comment.</p>
+        <!-- Giscus: GitHub Discussions based comments (GitHub login required) -->
+        <script src="https://giscus.app/client.js"
+                data-repo="rafique1990/rafique1990.github.io"
+                data-repo-id="R_kgDOUZjXWQ"
+                data-category="Announcements"
+                data-category-id="DIC_kwDOUZjXWc4DGDIc"
+                data-mapping="pathname"
+                data-strict="0"
+                data-reactions-enabled="1"
+                data-emit-metadata="0"
+                data-input-position="top"
+                data-theme="light"
+                data-lang="en"
+                crossorigin="anonymous"
+                async>
+        </script>
+        <!-- Fallback: Utterances (GitHub Issues based). Comment out Giscus above and uncomment this to switch.
         <script src="https://utteranc.es/client.js"
                 repo="rafique1990/rafique1990.github.io"
                 issue-term="pathname"
                 label="comment"
                 theme="github-light"
                 crossorigin="anonymous"
-                async>
-        </script>
+                async></script>
+        -->
     </section>
 </article>
+
+<script>
+    /* Copy button on every code block */
+    document.querySelectorAll('.prose pre').forEach(function (pre) {
+        var wrap = document.createElement('div');
+        wrap.className = 'code-wrap';
+        pre.parentNode.insertBefore(wrap, pre);
+        wrap.appendChild(pre);
+        var btn = document.createElement('button');
+        btn.className = 'copy-btn';
+        btn.type = 'button';
+        btn.textContent = 'Copy';
+        btn.addEventListener('click', function () {
+            var code = pre.querySelector('code') || pre;
+            navigator.clipboard.writeText(code.innerText).then(function () {
+                btn.textContent = 'Copied';
+                setTimeout(function () { btn.textContent = 'Copy'; }, 1500);
+            });
+        });
+        wrap.appendChild(btn);
+    });
+
+    /* Scroll-depth analytics: fire a custom event at 25/50/75/100% */
+    (function () {
+        var fired = {}, marks = [25, 50, 75, 100];
+        window.addEventListener('scroll', function () {
+            var el = document.documentElement;
+            var max = el.scrollHeight - el.clientHeight;
+            if (max <= 0) return;
+            var pct = (el.scrollTop / max) * 100;
+            marks.forEach(function (m) {
+                if (pct >= m && !fired[m]) {
+                    fired[m] = true;
+                    if (window.plausible) window.plausible('Scroll Depth', { props: { depth: m + '%' } });
+                }
+            });
+        }, { passive: true });
+    })();
+</script>

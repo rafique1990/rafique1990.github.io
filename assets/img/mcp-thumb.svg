@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 340" width="600" height="340">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#5B7CFA"/>
+      <stop offset="0.55" stop-color="#A65CC4"/>
+      <stop offset="1" stop-color="#C4562F"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="340" fill="url(#g)"/>
+  <g fill="#ffffff" font-family="'Sora','Inter',sans-serif">
+    <text x="40" y="150" font-size="86" font-weight="700" letter-spacing="-2">MCP</text>
+    <text x="44" y="196" font-size="24" font-weight="600" opacity="0.95">Architecture &amp; Production Best Practices</text>
+    <text x="44" y="300" font-size="17" font-family="'Roboto Mono',monospace" opacity="0.85">FastMCP · sequence diagram · LaTeX · code safety</text>
+  </g>
+</svg>
