@@ -23,7 +23,7 @@ layout: default
 
     <section class="comments">
         <h2>Comments</h2>
-        <p class="note">Sign in with GitHub to leave a comment.</p>
+        <p class="note">Comments are powered by GitHub Discussions. Sign in with your GitHub account in the box below to join in.</p>
         <!-- Giscus: GitHub Discussions based comments (GitHub login required) -->
         <script src="https://giscus.app/client.js"
                 data-repo="rafique1990/rafique1990.github.io"
@@ -67,7 +67,8 @@ layout: default
             var code = pre.querySelector('code') || pre;
             navigator.clipboard.writeText(code.innerText).then(function () {
                 btn.textContent = 'Copied';
-                setTimeout(function () { btn.textContent = 'Copy'; }, 1500);
+                btn.classList.add('copied');
+                setTimeout(function () { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 1500);
             });
         });
         wrap.appendChild(btn);

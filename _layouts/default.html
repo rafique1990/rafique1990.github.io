@@ -90,9 +90,10 @@
         .prose th{background:var(--bg-2);font-weight:700;}
         /* code copy button */
         .code-wrap{position:relative;margin:0 0 1.4rem;}
-        .copy-btn{position:absolute;top:8px;right:8px;font-family:var(--sans);font-size:0.72rem;font-weight:600;color:var(--ink-2);background:#fff;border:1px solid #d7dbe0;border-radius:6px;padding:0.22rem 0.6rem;cursor:pointer;opacity:0;transition:opacity .15s;z-index:2;}
+        .copy-btn{position:absolute;top:8px;right:8px;display:inline-flex;align-items:center;gap:0.3rem;font-family:var(--sans);font-size:0.72rem;font-weight:600;color:var(--ink-2);background:#fff;border:1px solid #d7dbe0;border-radius:6px;padding:0.24rem 0.6rem;cursor:pointer;opacity:0.95;transition:background .15s,opacity .15s;z-index:2;}
         .code-wrap:hover .copy-btn,.copy-btn:focus{opacity:1;}
         .copy-btn:hover{background:#eef1f5;}
+        .copy-btn.copied{color:#137333;border-color:#a3d0ae;background:#e9f6ec;}
         /* mermaid diagrams: light, click to zoom */
         .language-mermaid{background:#f8fafc;border:1px solid #e2e6ea;border-radius:12px;padding:1rem;overflow:auto;color:#24292e;}
         .mermaid{background:#ffffff;border:1px solid #e2e6ea;border-radius:14px;padding:1.6rem;margin:0 0 0.4rem;text-align:center;overflow-x:auto;cursor:zoom-in;}
