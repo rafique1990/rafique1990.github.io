@@ -23,31 +23,23 @@ layout: default
 
     <section class="comments">
         <h2>Comments</h2>
-        <p class="note">Comments are powered by GitHub Discussions. Sign in with your GitHub account in the box below to join in.</p>
-        <!-- Giscus: GitHub Discussions based comments (GitHub login required) -->
-        <script src="https://giscus.app/client.js"
-                data-repo="rafique1990/rafique1990.github.io"
-                data-repo-id="R_kgDOUZjXWQ"
-                data-category="Announcements"
-                data-category-id="DIC_kwDOUZjXWc4DGDIc"
-                data-mapping="pathname"
-                data-strict="0"
-                data-reactions-enabled="1"
-                data-emit-metadata="0"
-                data-input-position="top"
-                data-theme="light"
-                data-lang="en"
-                crossorigin="anonymous"
-                async>
-        </script>
-        <!-- Fallback: Utterances (GitHub Issues based). Comment out Giscus above and uncomment this to switch.
+        <p class="note">Comments are powered by GitHub. Sign in with your GitHub account in the box below to join in.</p>
+        <!-- Utterances: GitHub Issues based comments (GitHub login required; the Utterances app is installed on this repo) -->
         <script src="https://utteranc.es/client.js"
                 repo="rafique1990/rafique1990.github.io"
                 issue-term="pathname"
                 label="comment"
                 theme="github-light"
                 crossorigin="anonymous"
-                async></script>
+                async>
+        </script>
+        <!-- Alternative: Giscus (GitHub Discussions). Remove the Utterances script above and uncomment this to switch. Requires the giscus app installed.
+        <script src="https://giscus.app/client.js"
+                data-repo="rafique1990/rafique1990.github.io"
+                data-repo-id="R_kgDOUZjXWQ" data-category="Announcements" data-category-id="DIC_kwDOUZjXWc4DGDIc"
+                data-mapping="pathname" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0"
+                data-input-position="top" data-theme="light" data-lang="en"
+                crossorigin="anonymous" async></script>
         -->
     </section>
 </article>
