@@ -1,6 +1,8 @@
 ---
 layout: default
 ---
+<a class="backlink top" href="/blog/">&larr; All posts</a>
+
 <article>
     <header class="post-head">
         <span class="kicker">{{ page.categories | join: " · " }}</span>
@@ -17,5 +19,18 @@ layout: default
         {{ content }}
     </div>
 
-    <a class="backlink" href="/blog/">&larr; All posts</a>
+    <a class="backlink bottom" href="/blog/">&larr; All posts</a>
+
+    <section class="comments">
+        <h2>Comments</h2>
+        <p class="note">Sign in with GitHub to leave a comment.</p>
+        <script src="https://utteranc.es/client.js"
+                repo="rafique1990/rafique1990.github.io"
+                issue-term="pathname"
+                label="comment"
+                theme="github-light"
+                crossorigin="anonymous"
+                async>
+        </script>
+    </section>
 </article>

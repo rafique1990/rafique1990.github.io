@@ -37,7 +37,6 @@ from the model's intent down to the data source and back:
 ```mermaid
 ---
 config:
-  look: handDrawn
   theme: base
   themeVariables:
     fontFamily: '"Kalam", cursive'

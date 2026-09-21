@@ -10,12 +10,56 @@ description: "Notes on LLM systems, agents, MCP, and cloud architecture by Rafiq
     <div class="post-meta">Notes on LLM systems, agents, and cloud architecture.</div>
 </header>
 
-<ul class="post-list">
+<div class="blog-toolbar">
+    <input type="search" id="blogSearch" placeholder="Search posts by keyword, tag, or title..." aria-label="Search posts">
+</div>
+
+<ul class="post-list" id="postList">
     {% for post in site.posts %}
-    <li>
+    <li class="post-item" data-search="{{ post.title | downcase | escape }} {{ post.tags | join: ' ' | downcase }} {{ post.categories | join: ' ' | downcase }} {{ post.excerpt | strip_html | downcase | escape }}">
         <a class="title" href="{{ post.url }}">{{ post.title }}</a>
         <div class="post-meta">{{ post.date | date: "%B %-d, %Y" }} · {{ post.categories | join: " · " }}</div>
         <p class="excerpt">{{ post.excerpt | strip_html | truncate: 180 }}</p>
+        <div class="tags">{% for t in post.tags %}<span class="tag">{{ t }}</span>{% endfor %}</div>
     </li>
     {% endfor %}
 </ul>
+<p id="noResults" class="post-meta" style="display:none;">No posts match your search.</p>
+<nav class="pager" id="pager" aria-label="Blog pagination"></nav>
+
+<script>
+    (function () {
+        var PAGE_SIZE = 5;
+        var list = document.getElementById('postList');
+        var items = Array.prototype.slice.call(list.querySelectorAll('.post-item'));
+        var search = document.getElementById('blogSearch');
+        var pager = document.getElementById('pager');
+        var noResults = document.getElementById('noResults');
+        var page = 1, filtered = items;
+
+        function render() {
+            var pages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+            if (page > pages) page = pages;
+            items.forEach(function (el) { el.style.display = 'none'; });
+            filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE).forEach(function (el) { el.style.display = ''; });
+            noResults.style.display = filtered.length ? 'none' : '';
+            pager.innerHTML = '';
+            if (pages > 1) {
+                for (var i = 1; i <= pages; i++) {
+                    var b = document.createElement('button');
+                    b.textContent = i;
+                    b.className = 'page-btn' + (i === page ? ' active' : '');
+                    (function (n) { b.onclick = function () { page = n; render(); window.scrollTo({ top: 0, behavior: 'smooth' }); }; })(i);
+                    pager.appendChild(b);
+                }
+            }
+        }
+        search.addEventListener('input', function () {
+            var q = search.value.trim().toLowerCase();
+            filtered = q ? items.filter(function (el) { return el.getAttribute('data-search').indexOf(q) !== -1; }) : items;
+            page = 1;
+            render();
+        });
+        render();
+    })();
+</script>
